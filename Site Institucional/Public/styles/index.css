@@ -1,0 +1,241 @@
+/*
+    paleta de cores:
+    primary: #EAECEF
+    primary foreground: #002649
+*/
+@import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Barlow", sans-serif;
+}
+
+body {
+  background: #313131;
+}
+
+/* COMPONENTES */
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: #9B383A;
+  height: 130px;
+  padding: 0 75px;
+  box-sizing: border-box;
+}
+
+.navbar .navbar-logo {
+  display: flex;
+  flex-direction: row;
+  width: 130px;
+  height: 130px;
+  align-items: center;
+}
+
+.navbar ul {
+  justify-content: flex-end;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  gap: 70px;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar ul li {
+  align-self: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: black;
+}
+
+.navbar .login {
+  gap: 0px;
+} 
+
+.navbar .login img {
+  background: #000000;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.navbar .login li a {
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
+}
+
+.navbar .login li a span {
+  font-size: 19px;
+  font-weight: 500;
+  display: block;
+  color: black;
+}
+
+/* CONTEÚDO */
+.conteudo {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  height: auto;
+  margin-right: 5%;
+  margin-left: 5%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.titulo {
+  margin-bottom: 4%;
+}
+
+.titulo h1 {
+  font-size: 30px;
+}
+
+.titulo img {}
+
+.titulo p {
+  font-size: 18px;
+}
+
+.sub_titulo {
+  margin-bottom: 4%;
+}
+
+.sub_titulo h2 {
+  font-size: 26px;
+}
+
+.sub_titulo h4 {
+  font-size: 18px;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.sub_titulo img {}
+
+.sub_titulo p {
+  font-size: 18px;
+}
+
+.sub_titulo .sub_conteudo {
+  margin-left: 2%;
+}
+
+.sub_titulo .sub_conteudo h4 {
+  font-size: 22px;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.sub_titulo .sub_conteudo h4 p {
+  font-size: 18px;
+}
+
+.sub_titulo .sub_conteudo span {
+  font-weight: bold;
+}
+
+/* RODAPE */
+footer {
+  width: 100%;
+  background: #9EAFE8;
+  padding-top: 40px;
+  padding-left: 10%;
+  padding-right: 10%;
+  box-sizing: border-box;
+}
+
+.redirecionamento {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 2%;
+  }
+
+.link_footer {
+  width: 23%;
+  min-width: 200px;
+}
+
+.link_footer h1 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+}
+
+.link2 {
+  display: flex;
+  flex-direction: column;
+}
+
+.link a {
+  color: #555;
+  text-decoration: none;
+  font-size: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.link2 a {
+  color: #555;
+  text-decoration: none;
+  font-size: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.link a img {
+  margin-right: 8px;
+  width: 20px;
+  height: 20px;
+}
+
+.link2 a img {
+  margin-left: 8px;
+  width: 16px;
+  height: 16px;
+}
+
+.informacoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.informacoes img {
+  height: 150px;
+}
+
+.informacoes p {
+  margin: 0;
+  color: #666;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.informacoes p img {
+  margin-right: 5px;
+  height: 16px;
+}
