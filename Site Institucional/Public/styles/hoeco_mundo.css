@@ -1,8 +1,3 @@
-/*
-    paleta de cores:
-    primary: #EAECEF
-    primary foreground: #002649
-*/
 @import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 * {
@@ -75,17 +70,10 @@ body {
   margin-right: 15px;
 }
 
-.navbar .login li a {
+.navbar .login li #nome {
   font-weight: bold;
   color: #ffffff;
   text-decoration: none;
-}
-
-.navbar .login li a span {
-  font-size: 19px;
-  font-weight: 500;
-  display: block;
-  color: #ffffff;
 }
 
 /* CONTEÚDO */
@@ -180,6 +168,7 @@ body {
 footer {
   width: 100%;
   background: #EDEDED;
+  background-image: url(../assets/imgs/Hoeco\ Mundo\ -\ Textura\ Footer.png);
   padding-top: 40px;
   padding-left: 10%;
   padding-right: 10%;

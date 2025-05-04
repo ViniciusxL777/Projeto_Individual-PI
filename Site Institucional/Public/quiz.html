@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interativo</title>
+    <link rel="stylesheet" href="styles/quiz.css">
+    <link rel="shortcut icon" href="assets/icons/Logo-ContornoSemFundo.png" type="image/x-icon">
+</head>
+
+<body>
+    <div class="conteudo">
+        <div id="msgInicial">
+            <p>Bem-vindo ao Quiz, Boa Sorte!</p>
+        </div>
+
+        <!-- Área da Pergunta -->
+        <div class="perguntas" id="perguntas">Carregando pergunta...</div>
+
+        <!-- Área das Alternativas -->
+        <div class="alternativas">
+            <div id="alternativa_a"></div>
+            <div id="alternativa_b"></div>
+            <div id="alternativa_c"></div>
+            <div id="alternativa_d"></div>
+        </div>
+
+        <!-- Controles do Quiz -->
+        <div class="controles" id="controles">
+            <button onclick="iniciar()">Iniciar Quiz</button>
+            <button onclick="proximo()">Próximo</button>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    var ListaQuestoes = []
+    var questaoId
+    var respostaSelecionada = null
+    var alternativaCorreta
+    var resultadoQuestao
+    var idUsuario = sessionStorage.ID_USUARIO
+    qtdQuetao = 0
+
+    function iniciar() {
+        questaoId = parseInt(Math.random() * (29 + 1) + 1)
+        ListaQuestoes.push(questaoId)
+        buscarQuestao(questaoId)
+        controles.innerHTML = `<button onclick="proximo()" id="proximo">Proximo</button>`
+        msgInicial.innerHTML = `<p> Responda com calma, ${qtdQuetao}/10`
+    }
+
+    function reiniciarQuiz() {
+        iniciar()
+    }
+
+    function proximo() {
+        respostaQuestao()
+        if (ListaQuestoes.length < 10) {
+            questaoId = parseInt(Math.random() * (29 + 1) + 1)
+
+            while (ListaQuestoes.includes(questaoId)) {
+                questaoId = parseInt(Math.random() * (29 + 1) + 1)
+            }
+            ListaQuestoes.push(questaoId)
+            respostaSelecionada = null
+            buscarQuestao(questaoId)
+        } else {
+            alert("Você chegou ao final do quiz!\nVocê pode tentar de novo com questões novas.")
+            controles.innerHTML = `<button onclick="reiniciarQuiz()">Reiniciar Quiz</button>`;
+        }
+    }
+
+    function buscarQuestao(questaoId) {
+        fetch(`/quizRoute/buscarQuestao?idQuestao=${questaoId}`)
+            .then(response => response.json())
+            .then(dadosQuestao => {
+                alternativaCorreta = dadosQuestao.alternativaCorreta;
+                perguntas.textContent = dadosQuestao.pergunta,
+                    alternativa_a.innerHTML = `<button onclick="respostaSelecionada = 'alternativaA'" class="btnAlternativa" id="btnA">${dadosQuestao.alternativaA}</button>`,
+                    alternativa_b.innerHTML = `<button onclick="respostaSelecionada = 'alternativaB'" class="btnAlternativa" id="btnB">${dadosQuestao.alternativaB}</button>`,
+                    alternativa_c.innerHTML = `<button onclick="respostaSelecionada = 'alternativaC'" class="btnAlternativa" id="btnC">${dadosQuestao.alternativaC}</button>`,
+                    alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD'" class="btnAlternativa" id="btnD">${dadosQuestao.alternativaD}</button>`
+            })
+    }
+
+    function respostaQuestao() {
+        if (!respostaSelecionada) {
+            alert("Escolha uma alternativa!")
+            return;
+        } else if (respostaSelecionada == alternativaCorreta) {
+            resultadoQuestao = 1
+            qtdQuetao++
+            fetch(`/quizRoute/respostaQuestao`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    usuarioServer: idUsuario,
+                    questaoServer: questaoId,
+                    respostaServer: resultadoQuestao
+                })
+            })
+            alert(`Alternativa Correta!!`)
+        } else {
+            resultadoQuestao = 0
+            qtdQuetao++
+            fetch(`/quizRoute/respostaQuestao`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    usuarioServer: idUsuario,
+                    questaoServer: questaoId,
+                    respostaServer: resultadoQuestao
+                })
+            })
+            alert(`Alternativa Incorreta!!`)
+        }
+    }
+</script>
