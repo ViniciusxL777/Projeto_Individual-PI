@@ -93,7 +93,7 @@ body {
   color: black;
   background-color: white;
   border-color: black;
-  transform: scale(1.1);
+  transform: scale(1.02);
 }
 
 .controles {
@@ -118,6 +118,11 @@ body {
   background-color: white;
   border-color: black;
   transform: scale(1.1);
+}
+
+.controles button a{
+  text-decoration: none;
+  color: black;
 }
 
 #proximo {
