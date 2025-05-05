@@ -38,7 +38,7 @@
 <script>
     var ListaQuestoes = []
     var questaoId
-    var respostaSelecionada = null
+    var respostaSelecionada = ``
     var alternativaCorreta
     var resultadoQuestao
     var idUsuario = sessionStorage.ID_USUARIO
@@ -70,7 +70,7 @@
                         questaoId = parseInt(Math.random() * (29 + 1) + 1)
                     }
                     ListaQuestoes.push(questaoId)
-                    respostaSelecionada = null
+                    respostaSelecionada = ``
                     buscarQuestao(questaoId)
                 } else {
                     alert("Você chegou ao final do quiz!\nVocê pode tentar de novo com questões novas.")
@@ -125,7 +125,7 @@
     }
 
     function respostaQuestao() {
-        if (!respostaSelecionada) {
+        if (respostaSelecionada == ``) {
             alert("Escolha uma alternativa!")
             return false;
         } else if (respostaSelecionada == alternativaCorreta) {
