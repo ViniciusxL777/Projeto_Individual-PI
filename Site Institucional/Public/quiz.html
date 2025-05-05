@@ -61,24 +61,25 @@
     }
 
     function proximo() {
-        respostaQuestao()
-        setTimeout(() => {
-            if (ListaQuestoes.length < 10) {
-                questaoId = parseInt(Math.random() * (29 + 1) + 1)
-
-                while (ListaQuestoes.includes(questaoId)) {
+        if (respostaQuestao() == true) {
+            setTimeout(() => {
+                if (ListaQuestoes.length < 10) {
                     questaoId = parseInt(Math.random() * (29 + 1) + 1)
-                }
-                ListaQuestoes.push(questaoId)
-                respostaSelecionada = null
-                buscarQuestao(questaoId)
-            } else {
-                alert("Você chegou ao final do quiz!\nVocê pode tentar de novo com questões novas.")
-                controles.innerHTML = `<button onclick="reiniciarQuiz()">Reiniciar Quiz</button>
+
+                    while (ListaQuestoes.includes(questaoId)) {
+                        questaoId = parseInt(Math.random() * (29 + 1) + 1)
+                    }
+                    ListaQuestoes.push(questaoId)
+                    respostaSelecionada = null
+                    buscarQuestao(questaoId)
+                } else {
+                    alert("Você chegou ao final do quiz!\nVocê pode tentar de novo com questões novas.")
+                    controles.innerHTML = `<button onclick="reiniciarQuiz()">Reiniciar Quiz</button>
             <button><a href="sociedade_das_almas.html">Voltar</a></button>`
-            }
-            msgInicial.innerHTML = `<p> Responda com calma, ${qtdQuetao + 1}/10 perguntas`
-        }, 1500);
+                }
+                msgInicial.innerHTML = `<p> Responda com calma, ${qtdQuetao + 1}/10 perguntas`
+            }, 1500);
+        }
     }
 
     function buscarQuestao(questaoId) {
@@ -91,18 +92,42 @@
                     B = dadosQuestao.alternativaB,
                     C = dadosQuestao.alternativaC,
                     D = dadosQuestao.alternativaD,
-                    alternativa_a.innerHTML = `<button onclick="respostaSelecionada = 'alternativaA'" class="btnAlternativa">${A}</button>`,
-                    alternativa_b.innerHTML = `<button onclick="respostaSelecionada = 'alternativaB'" class="btnAlternativa">${B}</button>`,
-                    alternativa_c.innerHTML = `<button onclick="respostaSelecionada = 'alternativaC'" class="btnAlternativa">${C}</button>`,
-                    alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD'" class="btnAlternativa">${D}</button>`
+                    alternativa_a.innerHTML = `<button onclick="respostaSelecionada = 'alternativaA', btnSelecionado()" class="btnAlternativa">${A}</button>`,
+                    alternativa_b.innerHTML = `<button onclick="respostaSelecionada = 'alternativaB', btnSelecionado()" class="btnAlternativa">${B}</button>`,
+                    alternativa_c.innerHTML = `<button onclick="respostaSelecionada = 'alternativaC', btnSelecionado()" class="btnAlternativa">${C}</button>`,
+                    alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD', btnSelecionado()" class="btnAlternativa">${D}</button>`
 
             })
+    }
+
+    function btnSelecionado() {
+        if (respostaSelecionada == 'alternativaA') {
+            alternativa_a.innerHTML = `<button onclick="respostaSelecionada = 'alternativaA', btnSelecionado()" class="btnSelecionado">${A}</button>`
+            alternativa_b.innerHTML = `<button onclick="respostaSelecionada = 'alternativaB', btnSelecionado()" class="btnAlternativa">${B}</button>`
+            alternativa_c.innerHTML = `<button onclick="respostaSelecionada = 'alternativaC', btnSelecionado()" class="btnAlternativa">${C}</button>`
+            alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD', btnSelecionado()" class="btnAlternativa">${D}</button>`
+        } else if (respostaSelecionada == 'alternativaB') {
+            alternativa_a.innerHTML = `<button onclick="respostaSelecionada = 'alternativaA', btnSelecionado()" class="btnAlternativa">${A}</button>`
+            alternativa_b.innerHTML = `<button onclick="respostaSelecionada = 'alternativaB', btnSelecionado()" class="btnSelecionado">${B}</button>`
+            alternativa_c.innerHTML = `<button onclick="respostaSelecionada = 'alternativaC', btnSelecionado()" class="btnAlternativa">${C}</button>`
+            alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD', btnSelecionado()" class="btnAlternativa">${D}</button>`
+        } else if (respostaSelecionada == 'alternativaC') {
+            alternativa_a.innerHTML = `<button onclick="respostaSelecionada = 'alternativaA', btnSelecionado()" class="btnAlternativa">${A}</button>`
+            alternativa_b.innerHTML = `<button onclick="respostaSelecionada = 'alternativaB', btnSelecionado()" class="btnAlternativa">${B}</button>`
+            alternativa_c.innerHTML = `<button onclick="respostaSelecionada = 'alternativaC', btnSelecionado()" class="btnSelecionado">${C}</button>`
+            alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD', btnSelecionado()" class="btnAlternativa">${D}</button>`
+        } else if (respostaSelecionada == 'alternativaD') {
+            alternativa_a.innerHTML = `<button onclick="respostaSelecionada = 'alternativaA', btnSelecionado()" class="btnAlternativa">${A}</button>`
+            alternativa_b.innerHTML = `<button onclick="respostaSelecionada = 'alternativaB', btnSelecionado()" class="btnAlternativa">${B}</button>`
+            alternativa_c.innerHTML = `<button onclick="respostaSelecionada = 'alternativaC', btnSelecionado()" class="btnAlternativa">${C}</button>`
+            alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD', btnSelecionado()" class="btnSelecionado">${D}</button>`
+        }
     }
 
     function respostaQuestao() {
         if (!respostaSelecionada) {
             alert("Escolha uma alternativa!")
-            return;
+            return false;
         } else if (respostaSelecionada == alternativaCorreta) {
             resultadoQuestao = 1
             qtdQuetao++
@@ -116,15 +141,16 @@
                 })
             })
             if (respostaSelecionada == 'alternativaA') {
-                alternativa_a.innerHTML = `<button onclick="respostaSelecionada = 'alternativaA'" class="btnCorreto">${A}</button>`
+                alternativa_a.innerHTML = `<button onclick="respostaSelecionada = 'alternativaA', btnSelecionado()" class="btnCorreto">${A}</button>`
             } else if (respostaSelecionada == 'alternativaB') {
-                alternativa_b.innerHTML = `<button onclick="respostaSelecionada = 'alternativaB'" class="btnCorreto">${B}</button>`
+                alternativa_b.innerHTML = `<button onclick="respostaSelecionada = 'alternativaB', btnSelecionado()" class="btnCorreto">${B}</button>`
             } else if (respostaSelecionada == 'alternativaC') {
-                alternativa_c.innerHTML = `<button onclick="respostaSelecionada = 'alternativaC'" class="btnCorreto">${C}</button>`
+                alternativa_c.innerHTML = `<button onclick="respostaSelecionada = 'alternativaC', btnSelecionado()" class="btnCorreto">${C}</button>`
             } else if (respostaSelecionada == 'alternativaD') {
-                alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD'" class="btnCorreto">${D}</button>`
+                alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD', btnSelecionado()" class="btnCorreto">${D}</button>`
             }
             alert(`Alternativa Correta!!`)
+            return true
         } else {
             resultadoQuestao = 0
             qtdQuetao++
@@ -138,15 +164,16 @@
                 })
             })
             if (respostaSelecionada == 'alternativaA') {
-                alternativa_a.innerHTML = `<button onclick="respostaSelecionada = 'alternativaA'" class="btnErrado">${A}</button>`
+                alternativa_a.innerHTML = `<button onclick="respostaSelecionada = 'alternativaA', btnSelecionado()" class="btnErrado">${A}</button>`
             } else if (respostaSelecionada == 'alternativaB') {
-                alternativa_b.innerHTML = `<button onclick="respostaSelecionada = 'alternativaB'" class="btnErrado">${B}</button>`
+                alternativa_b.innerHTML = `<button onclick="respostaSelecionada = 'alternativaB', btnSelecionado()" class="btnErrado">${B}</button>`
             } else if (respostaSelecionada == 'alternativaC') {
-                alternativa_c.innerHTML = `<button onclick="respostaSelecionada = 'alternativaC'" class="btnErrado">${C}</button>`
+                alternativa_c.innerHTML = `<button onclick="respostaSelecionada = 'alternativaC', btnSelecionado()" class="btnErrado">${C}</button>`
             } else if (respostaSelecionada == 'alternativaD') {
-                alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD'" class="btnErrado">${D}</button>`
+                alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD', btnSelecionado()" class="btnErrado">${D}</button>`
             }
             alert(`Alternativa Incorreta!!`)
+            return true
         }
     }
 </script>
