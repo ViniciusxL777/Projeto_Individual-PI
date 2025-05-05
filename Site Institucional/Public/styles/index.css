@@ -54,6 +54,12 @@ body {
   color: black;
 }
 
+.navbar ul li select .select_informacao a{
+  text-decoration: none;
+  color: black;
+  background-color: red;
+}
+
 .navbar .login {
   gap: 0px;
 }
