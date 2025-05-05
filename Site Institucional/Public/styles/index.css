@@ -56,7 +56,7 @@ body {
 
 .navbar .login {
   gap: 0px;
-} 
+}
 
 .navbar .login img {
   background: #000000;
@@ -180,7 +180,7 @@ footer {
   flex-wrap: wrap;
   justify-content: space-between;
   margin-top: 2%;
-  }
+}
 
 .link_footer {
   width: 23%;

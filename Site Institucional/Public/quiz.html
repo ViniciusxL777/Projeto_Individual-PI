@@ -42,7 +42,7 @@
     var alternativaCorreta
     var resultadoQuestao
     var idUsuario = sessionStorage.ID_USUARIO
-    var qtdQuetao = 0
+    var qtdQuestao = 0
     var A
     var B
     var C
@@ -71,18 +71,18 @@
                     }
                     ListaQuestoes.push(questaoId)
                     respostaSelecionada = ``
-                    buscarQuestao(questaoId)
+                    buscarQuestao()
                 } else {
                     alert("Você chegou ao final do quiz!\nVocê pode tentar de novo com questões novas.")
                     controles.innerHTML = `<button onclick="reiniciarQuiz()">Reiniciar Quiz</button>
             <button><a href="sociedade_das_almas.html">Voltar</a></button>`
                 }
-                msgInicial.innerHTML = `<p> Responda com calma, ${qtdQuetao + 1}/10 perguntas`
+                msgInicial.innerHTML = `<p> Responda com calma, ${qtdQuestao + 1}/10 perguntas`
             }, 1500);
         }
     }
 
-    function buscarQuestao(questaoId) {
+    function buscarQuestao() {
         fetch(`/quizRoute/buscarQuestao?idQuestao=${questaoId}`)
             .then(response => response.json())
             .then(dadosQuestao => {
@@ -130,7 +130,7 @@
             return false;
         } else if (respostaSelecionada == alternativaCorreta) {
             resultadoQuestao = 1
-            qtdQuetao++
+            qtdQuestao++
             fetch(`/quizRoute/respostaQuestao`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -153,7 +153,7 @@
             return true
         } else {
             resultadoQuestao = 0
-            qtdQuetao++
+            qtdQuestao++
             fetch(`/quizRoute/respostaQuestao`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

@@ -3,9 +3,9 @@ USE bleach_info;
 
 CREATE TABLE usuario (
  idUsuario INT PRIMARY KEY AUTO_INCREMENT,
- nome VARCHAR(100) UNIQUE,
- email VARCHAR(100) UNIQUE,
- senha VARCHAR(100)
+ nome VARCHAR(100) UNIQUE NOT NULL,
+ email VARCHAR(100) UNIQUE NOT NULL,
+ senha VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE questao (
@@ -20,13 +20,13 @@ alternativaCorreta CHAR(12)
 
 CREATE TABLE resposta (
 idResposta INT AUTO_INCREMENT,
-pkUsuario INT,
-pkQuestao INT,
+pkUsuario INT NOT NULL,
+pkQuestao INT UNIQUE NOT NULL,
 CONSTRAINT pkComposta PRIMARY KEY (idResposta, pkusuario, pkQuestao),
 CONSTRAINT pkUsuarioResposta FOREIGN KEY (pkUsuario) REFERENCES usuario (idUsuario),
 CONSTRAINT pkQuestaoResposta FOREIGN KEY (pkQuestao) REFERENCES questao (idQuestao),
-resultado INT,
-CONSTRAINT chkResultado CHECK (resultado IN (1,0))
+resultadoQuestao INT,
+CONSTRAINT chkResultadoQuestao CHECK (resultadoQuestao IN (1,0))
 );
 
 INSERT INTO questao (pergunta, alternativaA, alternativaB, alternativaC, alternativaD, alternativaCorreta) VALUES
@@ -60,3 +60,13 @@ INSERT INTO questao (pergunta, alternativaA, alternativaB, alternativaC, alterna
 ('Qual é a especialidade da 12ª Divisão?', 'Força de choque', 'Pesquisa e Desenvolvimento', 'Treinamento Espiritual', 'Reconhecimento', 'alternativaB'),
 ('Qual capitão é conhecido por ter sido um dos primeiros Kenpachi?', 'Shunsui Kyōraku', 'Mayuri Kurotsuchi', 'Retsu Unohana', 'Ukitake', 'alternativaC'),
 ('Qual é o nome do jornal oficial da Sociedade das Almas?', 'Soul News', 'Seireitei News', 'Seireitei Communication', 'Karakura Times', 'alternativaC');
+
+SELECT * FROM usuario;
+SELECT * FROM resposta;
+SELECT * FROM questao;
+
+SELECT * FROM usuario JOIN resposta 
+	ON usuario.idUsuario = resposta.pkUsuario 
+JOIN questao 
+	ON resposta.pkQuestao = questao.idQuestao 
+ORDER BY resposta.pkQuestao ASC WHERE resultado.pkUsuario = 1;
