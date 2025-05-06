@@ -55,6 +55,19 @@ body {
   color: black;
 }
 
+.navbar ul select {
+  align-self: center;
+  font-size: 24px;
+  font-weight: bold;
+  background: transparent;
+  border: none;
+  width: 24%;
+}
+
+.navbar ul select option {
+  background: transparent;
+}
+
 .navbar .login {
   gap: 0px;
 }
@@ -175,7 +188,7 @@ footer {
   flex-wrap: wrap;
   justify-content: space-between;
   margin-top: 2%;
-  }
+}
 
 .link_footer {
   width: 23%;

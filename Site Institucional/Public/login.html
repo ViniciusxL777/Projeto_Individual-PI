@@ -79,12 +79,12 @@
                         sessionStorage.ID_USUARIO = json.idUsuario;
 
                         alert(`Login bem sucedido`)
-                        window.location = "sociedade_das_almas.html";
+                        window.location = "sociedade_das_almas.html"
                     });
 
                 } else {
 
-                    console.log("Houve um erro ao tentar realizar o login!");
+                    console.log("Houve um erro ao tentar realizar o login!")
 
                     resposta.text().then(texto => {
                         console.error(texto);

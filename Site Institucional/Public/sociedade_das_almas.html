@@ -18,7 +18,15 @@
         </div>
         <ul>
             <li><a href="index.html">Inicio</a></li>
-            <li><a href="login.html">Informações</a></li>
+            <select id="select_informacao" onchange="mudarPagina()">
+                <option value="">Informações</option>
+                <option value="sociedade_das_almas.html">Sociedade Das Almas</option>
+                <option value="hoeco_mundo.html">Hoeco Mundo</option>
+                <option value="sociedade_quincy.html">Sociedade Quincy</option>
+                <option value="shinigami.html">Shinigami</option>
+                <option value="hollow_arrancars.html">Hollow/Arrancars</option>
+                <option value="quincy.html">Quincy</option>
+            </select>
             <li><a href="quiz.html">Quiz</a></li>
             <li><a href="sobreNos.html">Sobre nós</a></li>
         </ul>
@@ -44,8 +52,8 @@
                         Shinigami e as famílias nobres — e o Rukongai, uma ampla área periférica onde habitam as almas
                         comuns.</p>
                 </div>
-                <div class="imagens"><img
-                        src="assets/imgs/Sociedade Das Almas - Panorâmica Da Sociedade Das Almas.jpeg" alt=""></div>
+                <div class="imagens"><img src="assets/imgs/Sociedade Das Almas - Panorâmica Da Sociedade Das Almas.jpeg"
+                        alt=""></div>
             </div>
         </div>
         <div class="sub_titulo">
@@ -284,8 +292,7 @@
                         Esses rituais e proteções garantem que a balança do mundo dos vivos e dos mortos permaneça
                         estável.</p>
                 </div>
-                <div class="imagens"><img src="assets/imgs/Sociedade Das Almas - Zanpakutō Sendo Empunhada.jpg"
-                        alt="">
+                <div class="imagens"><img src="assets/imgs/Sociedade Das Almas - Zanpakutō Sendo Empunhada.jpg" alt="">
                 </div>
             </div>
         </div>
@@ -343,11 +350,11 @@
                             src="assets/icons/Icone-Link.png" alt=""></a>
                     <a href="hoeco_mundo.html">Hoeco Mundo<img class="img1" src="assets/icons/Icone-Link.png"
                             alt=""></a>
-                    <a href="sociedade_quincy.html">Sociedade Quincy<img class="img1"
-                            src="assets/icons/Icone-Link.png" alt=""></a>
+                    <a href="sociedade_quincy.html">Sociedade Quincy<img class="img1" src="assets/icons/Icone-Link.png"
+                            alt=""></a>
                     <a href="shinigami.html">Shinigami<img class="img1" src="assets/icons/Icone-Link.png" alt=""></a>
-                    <a href="hollow_arrancara.html">Hollows/Arrancars<img class="img1"
-                            src="assets/icons/Icone-Link.png" alt=""></a>
+                    <a href="hollow_arrancara.html">Hollows/Arrancars<img class="img1" src="assets/icons/Icone-Link.png"
+                            alt=""></a>
                     <a href="quincy.html">Quincy<img class="img1" src="assets/icons/Icone-Link.png" alt=""></a>
                 </div>
             </div>
@@ -363,4 +370,11 @@
 </html>
 <script>
     nome.innerHTML = sessionStorage.NOME_USUARIO
+
+    function mudarPagina() {
+        var select = select_informacao.value
+        if (select !== "") {
+            window.location.href = `${select}`
+        }
+    }
 </script>
