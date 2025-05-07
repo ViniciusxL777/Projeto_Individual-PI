@@ -65,6 +65,10 @@ SELECT * FROM usuario;
 SELECT * FROM resposta;
 SELECT * FROM questao;
 
+SELECT * FROM usuario WHERE idUsuario = 1;
+SELECT * FROM questao;
+SELECT * FROM resposta WHERE pkUsuario = 1;
+
 SELECT * FROM usuario JOIN resposta 
 	ON usuario.idUsuario = resposta.pkUsuario 
 JOIN questao 

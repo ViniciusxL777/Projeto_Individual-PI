@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil | Bleach_Info</title>
+    <link rel="stylesheet" href="styles/perfil.css">
+    <link rel="shortcut icon" href="assets/icons/Logo-ContornoSemFundo.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <img style="width: 140px; height: 140px;" src="assets/icons/Logo-ContornoSemFundo.png" alt="Logo">
+        </div>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <select id="select_informacao" onchange="mudarPagina()">
+                <option value="">Informações</option>
+                <option value="sociedade_das_almas.html">Sociedade Das Almas</option>
+                <option value="hoeco_mundo.html">Hoeco Mundo</option>
+                <option value="sociedade_quincy.html">Sociedade Quincy</option>
+                <option value="shinigami.html">Shinigami</option>
+                <option value="hollow_arrancars.html">Hollow/Arrancars</option>
+                <option value="quincy.html">Quincy</option>
+            </select>
+            <li><a href="quiz.html">Quiz</a></li>
+            <li><a href="sobreNos.html">Sobre nós</a></li>
+        </ul>
+        <ul class="login"><img style="width: 100px; height: 100px;" src="assets/icons/Icone-Shinigami-SemFundo.png"
+                alt="icone polus">
+            <li>
+                <a href="perfil.html">
+                    <div id="nomeNavBar"></div>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- CONTEUDO -->
+    <div class="conteudo">
+        <div class="titulo">
+            <h1></h1>
+            <div class="texto-imagem">
+                <div class="texto">
+                    <p><br></p>
+                    <br>
+                    <p><br>
+                    </p>
+                </div>
+                <div class="imagens"><img src="" alt=""></div>
+            </div>
+        </div>
+        <div class="sub_titulo">
+            <h2></h2>
+            <div class="texto-imagem">
+                <div class="texto">
+                    <p><br>
+                    </p>
+                    <br>
+                    <p><br>
+                    </p>
+                </div>
+                <div class="imagens"><img src="" alt=""></div>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="buscarDadosUsuario()">buscarDadosUsuario</button>
+    <button onclick="buscarDadosQuestao()">buscarDadosQuestao</button>
+    <button onclick="buscarDadosResultado()">buscarDadosResultado</button>
+
+</body>
+
+</html>
+<script>
+
+    var idUsuario = sessionStorage.ID_USUARIO
+    var nome = sessionStorage.NOME_USUARIO
+    var email = sessionStorage.EMAIL_USUARIO
+    nomeNavBar.innerHTML = nome
+
+    var dadosUsuario = {}
+    var dadosQuestao = []
+    var dadosRespostas = []
+
+    var idQuestao = []
+    var pergunta = []
+    var a = []
+    var b = []
+    var c = []
+    var d = []
+    var correta = []
+
+    var idResposta = []
+    var pkUsuario = []
+    var pkQuestao = []
+    var resultadoQuestao = []
+
+    // msg1.innerHTML = JSON.stringify(idQuestao)
+    // msg2.innerHTML = JSON.stringify(dadosQuestao.idQuestao)
+    // msg3.innerHTML = JSON.stringify(dadosRespostas.idResposta)
+
+    function mudarPagina() {
+        var select = select_informacao.value
+        if (select !== "") {
+            window.location.href = `${select}`
+        }
+    }
+
+    function buscarDadosUsuario() {
+        fetch(`/perfilRoute/buscarDadosUsuario?idUsuario=${idUsuario}`)
+            .then(response => response.json())
+            .then(dados => {
+                dadosUsuario = dados;
+            });
+    }
+
+    function buscarDadosQuestao() {
+        fetch(`/perfilRoute/buscarDadosQuestao`)
+            .then(response => response.json())
+            .then(dados => {
+                dadosQuestao = dados
+                dadosQuestao.forEach(resposta => {
+                    idQuestao.push(resposta.idQuestao),
+                        pergunta.push(resposta.pergunta),
+                        a.push(resposta.alternativaA),
+                        b.push(resposta.alternativaB),
+                        c.push(resposta.alternativaC),
+                        d.push(resposta.alternativaD),
+                        correta.push(resposta.alternativaCorreta)
+                })
+            });
+    }
+
+    function buscarDadosResultado() {
+        fetch(`/perfilRoute/buscarDadosResultado?pkUsuario=${idUsuario}`)
+            .then(response => response.json())
+            .then(dados => {
+                dadosRespostas = dados
+                dadosRespostas.forEach(resposta => {
+                    idResposta.push(resposta.idResposta),
+                        pkUsuario.push(resposta.pkUsuario),
+                        pkQuestao.push(resposta.pkQuestao),
+                        resultadoQuestao.push(resposta.resultadoQuestao)
+                })
+            });
+    }
+
+</script>
