@@ -37,16 +37,19 @@
 </html>
 <script>
     var ListaQuestoes = []
-    var questaoId
+    var questaoId = 0
     var respostaSelecionada = ``
-    var alternativaCorreta
-    var resultadoQuestao
+    var alternativaCorreta = 0
+    var resultadoQuestao = 0
+    var pontosQuestao = 0
     var idUsuario = sessionStorage.ID_USUARIO
     var qtdQuestao = 0
-    var A
-    var B
-    var C
-    var D
+    var A = 0
+    var B = 0
+    var C = 0
+    var D = 0
+    var pontuacao = 0
+    var quizPontos = 0
 
     function iniciar() {
         questaoId = parseInt(Math.random() * (29 + 1) + 1)
@@ -57,11 +60,12 @@
     }
 
     function reiniciarQuiz() {
-        iniciar()
+        window.location = "quiz.html"
     }
 
     function proximo() {
         if (respostaQuestao() == true) {
+            controles.innerHTML = ``
             setTimeout(() => {
                 if (ListaQuestoes.length < 10) {
                     questaoId = parseInt(Math.random() * (29 + 1) + 1)
@@ -72,12 +76,15 @@
                     ListaQuestoes.push(questaoId)
                     respostaSelecionada = ``
                     buscarQuestao()
+                    controles.innerHTML = `<button onclick="proximo()" id="proximo">Proximo</button>`
+                    msgInicial.innerHTML = `<p> Responda com calma, ${qtdQuestao + 1}/10 perguntas`
                 } else {
+                    pontosQuiz()
                     alert("Você chegou ao final do quiz!\nVocê pode tentar de novo com questões novas.")
                     controles.innerHTML = `<button onclick="reiniciarQuiz()">Reiniciar Quiz</button>
             <button><a href="sociedade_das_almas.html">Voltar</a></button>`
+                    qtdQuestao = 0
                 }
-                msgInicial.innerHTML = `<p> Responda com calma, ${qtdQuestao + 1}/10 perguntas`
             }, 1500);
         }
     }
@@ -92,11 +99,11 @@
                     B = dadosQuestao.alternativaB,
                     C = dadosQuestao.alternativaC,
                     D = dadosQuestao.alternativaD,
+                    pontosQuestao = dadosQuestao.pontos,
                     alternativa_a.innerHTML = `<button onclick="respostaSelecionada = 'alternativaA', btnSelecionado()" class="btnAlternativa">${A}</button>`,
                     alternativa_b.innerHTML = `<button onclick="respostaSelecionada = 'alternativaB', btnSelecionado()" class="btnAlternativa">${B}</button>`,
                     alternativa_c.innerHTML = `<button onclick="respostaSelecionada = 'alternativaC', btnSelecionado()" class="btnAlternativa">${C}</button>`,
                     alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD', btnSelecionado()" class="btnAlternativa">${D}</button>`
-
             })
     }
 
@@ -129,7 +136,9 @@
             alert("Escolha uma alternativa!")
             return false;
         } else if (respostaSelecionada == alternativaCorreta) {
+            quizPontos += pontosQuestao
             resultadoQuestao = 1
+            pontuacao = pontosQuestao
             qtdQuestao++
             fetch(`/quizRoute/respostaQuestao`, {
                 method: "POST",
@@ -137,7 +146,8 @@
                 body: JSON.stringify({
                     usuarioServer: idUsuario,
                     questaoServer: questaoId,
-                    respostaServer: resultadoQuestao
+                    respostaServer: resultadoQuestao,
+                    pontosServer: pontuacao
                 })
             })
             if (respostaSelecionada == 'alternativaA') {
@@ -152,6 +162,8 @@
             alert(`Alternativa Correta!!`)
             return true
         } else {
+            quizPontos += 0
+            pontuacao = 0
             resultadoQuestao = 0
             qtdQuestao++
             fetch(`/quizRoute/respostaQuestao`, {
@@ -160,7 +172,8 @@
                 body: JSON.stringify({
                     usuarioServer: idUsuario,
                     questaoServer: questaoId,
-                    respostaServer: resultadoQuestao
+                    respostaServer: resultadoQuestao,
+                    pontosServer: pontuacao
                 })
             })
             if (respostaSelecionada == 'alternativaA') {
@@ -175,5 +188,16 @@
             alert(`Alternativa Incorreta!!`)
             return true
         }
+    }
+
+    function pontosQuiz() {
+        fetch(`/quizRoute/pontosQuiz`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                pkUsuarioServer: idUsuario,
+                pontosServer: quizPontos
+            })
+        })
     }
 </script>

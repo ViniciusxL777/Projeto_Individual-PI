@@ -10,12 +10,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body>
+<body onload="buscarDadosResultados(), buscarDadosQuestoes(), buscarDadosQuiz()">
 
     <!-- NAVBAR -->
     <nav class="navbar">
         <div class="navbar-logo">
-            <img style="width: 140px; height: 140px;" src="assets/icons/Logo-ContornoSemFundo.png" alt="Logo">
+            <img style="width: 140px; height: 140px;" src="assets/icons/Logo-SemFundo.png" alt="Logo">
         </div>
         <ul>
             <li><a href="index.html">Inicio</a></li>
@@ -33,77 +33,118 @@
         </ul>
         <ul class="login"><img style="width: 100px; height: 100px;" src="assets/icons/Icone-Shinigami-SemFundo.png"
                 alt="icone polus">
-            <li>
-                <a href="perfil.html">
-                    <div id="nomeNavBar"></div>
-                </a>
-            </li>
         </ul>
     </nav>
 
-    <!-- CONTEUDO -->
-    <div class="conteudo">
-        <div class="titulo">
-            <h1></h1>
-            <div class="texto-imagem">
-                <div class="texto">
-                    <p><br></p>
-                    <br>
-                    <p><br>
-                    </p>
+    <div class="geral">
+        <!-- CARD USUÁRIO -->
+        <div class="card-usuario">
+            <div class="imagem-usuario">
+                <img src="assets/icons/Icone-Arrancara.png" alt="Foto do usuário">
+            </div>
+            <div id="nome" class="username">
+            </div>
+            <div class="informacoes-usuario">
+                <div class="info-quiz" id="qtdQuizzes">
+                    <p><span></span></p>
+                    <p>Quizzes realizados</p>
                 </div>
-                <div class="imagens"><img src="" alt=""></div>
+                <div class="pontuacao" id="pontosUsuarioEsquerdo">
+                    <p><span></span></p>
+                    <p>Pontos totais</p>
+                </div>
+            </div>
+            <div class="exit">
+                <div class="img_saida">
+                    <button class="btnSaida" onclick="limparSessao()">
+                        <img src="assets/icons/Icone-Exit.png" alt="Sair">
+                    </button>
+                </div>
+                <div class="texto_saida" onclick="limparSessao()">Sair</div>
             </div>
         </div>
-        <div class="sub_titulo">
-            <h2></h2>
-            <div class="texto-imagem">
-                <div class="texto">
-                    <p><br>
-                    </p>
-                    <br>
-                    <p><br>
-                    </p>
+
+        <!-- DASHBOARD -->
+        <div class="dashboard">
+            <div class="statusUsuario">
+                <div class="cardDados">
+                    <div class="perguntacasRespondidas">
+                        <div class="texto-container">
+                            <div class="dadosCard">Perguntas</div>
+                            <div class="dadosPerguntas">
+                                <div class="qtdRealizadas" id="realizadas"></div>
+                                <div class="qtdPergunta" id="perguntas">/ 30</div>
+                            </div>
+                        </div>
+                        <div class="imgCard"><img src="" alt=""></div>
+                    </div>
                 </div>
-                <div class="imagens"><img src="" alt=""></div>
+
+                <div class="cardDados">
+                    <div class="preguntasCorretas">
+                        <div class="texto-container">
+                            <div class="dadosCard">Certas</div>
+                            <div class="qtdCertas" id="certa"></div>
+                        </div>
+                        <div class="imgCard"><img src="" alt=""></div>
+                    </div>
+                </div>
+
+                <div class="cardDados">
+                    <div class="perguntasErradas">
+                        <div class="texto-container">
+                            <div class="dadosCard">Erradas</div>
+                            <div class="qtdErradas" id="errada"></div>
+                        </div>
+                        <div class="imgCard"><img src="" alt=""></div>
+                    </div>
+                </div>
+
+                <div class="cardDados">
+                    <div class="pontuacaoUsuario">
+                        <div class="texto-container">
+                            <div class="dadosCard">Pontuação</div>
+                            <div class="dadosPontuacao">
+                                <div class="dadosPontuacao" id="pontuacaoDashboard"></div>
+                                <div class="todosOsPontos" id="pontuacaoTotal"></div>
+                            </div>
+                        </div>
+                        <div class="imgCard"><img src="" alt=""></div>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboardCharjs">
+                <canvas>Puxar os quizzes com os seus acertos em forma de graficos de barras indo de 0 a 10</canvas>
             </div>
         </div>
     </div>
-
-    <button onclick="buscarDadosUsuario()">buscarDadosUsuario</button>
-    <button onclick="buscarDadosQuestao()">buscarDadosQuestao</button>
-    <button onclick="buscarDadosResultado()">buscarDadosResultado</button>
 
 </body>
 
 </html>
 <script>
-
+    // BUSCA DE DADOS
     var idUsuario = sessionStorage.ID_USUARIO
-    var nome = sessionStorage.NOME_USUARIO
+    var nomeUsuario = sessionStorage.NOME_USUARIO
     var email = sessionStorage.EMAIL_USUARIO
-    nomeNavBar.innerHTML = nome
+    nome.innerHTML = `<p>${nomeUsuario}</p>`
 
-    var dadosUsuario = {}
     var dadosQuestao = []
     var dadosRespostas = []
+    var dadosQuizzes = []
 
-    var idQuestao = []
-    var pergunta = []
-    var a = []
-    var b = []
-    var c = []
-    var d = []
-    var correta = []
-
-    var idResposta = []
-    var pkUsuario = []
-    var pkQuestao = []
-    var resultadoQuestao = []
-
-    // msg1.innerHTML = JSON.stringify(idQuestao)
-    // msg2.innerHTML = JSON.stringify(dadosQuestao.idQuestao)
-    // msg3.innerHTML = JSON.stringify(dadosRespostas.idResposta)
+    var todasRespondidas = []
+    var qtdRespondidas = 0
+    var todasRespostas = []
+    var qtdCorretas = 0
+    var qtdErradas = 0
+    var todosPontos = []
+    var totalPontos = 0
+    var todosPontosQuestao = []
+    var pontos = 0
+    var qtdQuiz = 0
+    var totalQuizzes = []
+    var todasPontuacaoQuiz = []
 
     function mudarPagina() {
         var select = select_informacao.value
@@ -112,43 +153,82 @@
         }
     }
 
-    function buscarDadosUsuario() {
-        fetch(`/perfilRoute/buscarDadosUsuario?idUsuario=${idUsuario}`)
-            .then(response => response.json())
-            .then(dados => {
-                dadosUsuario = dados;
-            });
+    function limparSessao() {
+        sessionStorage.clear();
+        window.location = "../login.html";
     }
 
-    function buscarDadosQuestao() {
-        fetch(`/perfilRoute/buscarDadosQuestao`)
+    function buscarDadosResultados() {
+        fetch(`/perfilRoute/buscarDadosResultados?pkUsuario=${idUsuario}`)
             .then(response => response.json())
-            .then(dados => {
-                dadosQuestao = dados
-                dadosQuestao.forEach(resposta => {
-                    idQuestao.push(resposta.idQuestao),
-                        pergunta.push(resposta.pergunta),
-                        a.push(resposta.alternativaA),
-                        b.push(resposta.alternativaB),
-                        c.push(resposta.alternativaC),
-                        d.push(resposta.alternativaD),
-                        correta.push(resposta.alternativaCorreta)
-                })
-            });
-    }
-
-    function buscarDadosResultado() {
-        fetch(`/perfilRoute/buscarDadosResultado?pkUsuario=${idUsuario}`)
-            .then(response => response.json())
-            .then(dados => {
-                dadosRespostas = dados
+            .then(dadosResultados => {
+                dadosRespostas = dadosResultados
                 dadosRespostas.forEach(resposta => {
-                    idResposta.push(resposta.idResposta),
-                        pkUsuario.push(resposta.pkUsuario),
-                        pkQuestao.push(resposta.pkQuestao),
-                        resultadoQuestao.push(resposta.resultadoQuestao)
-                })
-            });
+                    todasRespondidas.push(resposta.idResposta),
+                        todasRespostas.push(resposta.resultadoQuestao),
+                        todosPontos.push(resposta.pontosQuestao)
+                });
+            })
+
+        setTimeout(() => {
+            for (var i = 1; i <= todasRespostas.length; i++) {
+                if (todasRespostas[i - 1] == 1) {
+                    qtdCorretas += 1
+                } else {
+                    qtdErradas += 1
+                }
+            }
+
+            for (var u = 1; u <= todosPontos.length; u++) {
+                pontos += todosPontos[u - 1]
+            }
+
+            qtdRespondidas = todasRespondidas.length - 1
+
+            qtdRespondidas += 1
+
+            realizadas.innerHTML = `${qtdRespondidas}`
+            certa.innerHTML = `${qtdCorretas}`
+            errada.innerHTML = `${qtdErradas}`
+            pontosUsuarioEsquerdo.innerHTML = `<p><span>${pontos}</span></p>
+            <p>Pontos totais</p>`
+            pontuacaoDashboard.innerHTML = `${pontos}`
+        }, 100);
+    }
+
+    function buscarDadosQuestoes() {
+        fetch(`/perfilRoute/buscarDadosQuestoes`)
+            .then(response => response.json())
+            .then(dadosQuestoes => {
+                dadosQuestao = dadosQuestoes
+                dadosQuestao.forEach(resposta => {
+                    todosPontosQuestao.push(resposta.pontos)
+                });
+            })
+        setTimeout(() => {
+            for (var i = 1; i <= todosPontosQuestao.length; i++) {
+                totalPontos += todosPontosQuestao[i - 1]
+            }
+            pontuacaoTotal.innerHTML = `/${totalPontos}`
+        }, 100);
+    }
+
+    function buscarDadosQuiz() {
+        fetch(`/perfilRoute/buscarDadosQuiz?pkUsuario=${idUsuario}`)
+            .then(response => response.json())
+            .then(dadosQuiz => {
+                dadosQuizzes = dadosQuiz
+                dadosQuizzes.forEach(resposta => {
+                    totalQuizzes.push(resposta.idQuiz)
+                    todasPontuacaoQuiz.push(resposta.pontos)
+                });
+            })
+        setTimeout(() => {
+            qtdQuizzes.innerHTML = `<p><span>${totalQuizzes.length}</span></p>
+                <p>Quizzes realizados</p>`
+        }, 100);
     }
 
 </script>
+<!-- https://vinicius123.my.canva.site/ -->
+<!-- https://vinicius123.my.canva.site/p-gina-de-perfil-do-usu-rio-site-sobre-bleach -->

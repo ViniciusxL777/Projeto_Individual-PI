@@ -1,28 +1,28 @@
 var database = require("../database/config")
 
-function buscarDadosUsuario(idUsuario) {
+function buscarDadosResultados(pkUsuario) {
     var instrucaoSql = `
-        SELECT * FROM usuario WHERE idUsuario = ${idUsuario};`;
-    console.log("Executando a instrução SQL: Consulta de dados do usuario \n" + instrucaoSql);
+        SELECT * FROM resposta WHERE pkUsuario = '${pkUsuario}';`;
+    console.log("Executando a instrução SQL: Consulta de resultados \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function buscarDadosQuestao() {
+function buscarDadosQuestoes() {
     var instrucaoSql = `
         SELECT * FROM questao;`;
-    console.log("Executando a instrução SQL: Consulta de perguntas \n" + instrucaoSql);
+    console.log("Executando a instrução SQL: Consulta de resultados \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function buscarDadosResultado(pkUsuario) {
+function buscarDadosQuiz(pkUsuario) {
     var instrucaoSql = `
-        SELECT * FROM resposta WHERE pkUsuario = ${pkUsuario};`;
-    console.log("Executando a instrução SQL: Consulta de dados de resultados \n" + instrucaoSql);
+        SELECT * FROM quiz WHERE pkUsuario = '${pkUsuario}';    `;
+    console.log("Executando a instrução SQL: Consulta de quizzes do usuário \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 module.exports = {
-    buscarDadosUsuario,
-    buscarDadosQuestao,
-    buscarDadosResultado
+    buscarDadosResultados,
+    buscarDadosQuestoes,
+    buscarDadosQuiz
 }

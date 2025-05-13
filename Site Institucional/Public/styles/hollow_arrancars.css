@@ -62,9 +62,11 @@ body {
   background: transparent;
   border: none;
   width: 24%;
+  color: white;
 }
 
 .navbar ul select option {
+  color: black;
   background: transparent;
 }
 

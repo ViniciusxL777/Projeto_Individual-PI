@@ -101,18 +101,22 @@ body {
 }
 
 .titulo h1 {
+  color: white;
   font-size: 34px;
 }
 
 .sub_titulo {
+  color: white;
   margin-bottom: 4%;
 }
 
 .sub_titulo h2 {
+  color: white;
   font-size: 30px;
 }
 
 .sub_titulo h4 {
+  color: white;
   font-size: 26px;
   margin-top: 2%;
   margin-bottom: 2%;
@@ -120,6 +124,7 @@ body {
 
 .sub_titulo p {
   font-size: 22px;
+  color: white;
 }
 
 .sub_titulo .sub_conteudo {
@@ -127,12 +132,14 @@ body {
 }
 
 .sub_titulo .sub_conteudo h4 {
+  color: white;
   font-size: 26px;
   margin-top: 2%;
   margin-bottom: 2%;
 }
 
 .sub_titulo .sub_conteudo span {
+  color: white;
   font-weight: bold;
 }
 
@@ -151,6 +158,7 @@ body {
 }
 
 .texto p {
+  color: white;
   font-size: 22px;
   font-weight: 400;
   line-height: 1.7;

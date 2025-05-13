@@ -1,5 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
-
+/* ESTILOS GERAIS (original) */
 * {
     margin: 0;
     padding: 0;
@@ -11,15 +10,14 @@ body {
     background: #313131;
 }
 
-/* COMPONENTES */
-
-/* NAVBAR */
+/* NAVBAR (original mantido) */
 .navbar {
     display: flex;
+    position: fixed;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    background: #EAECEF;
+    background: #1a1a1a;
     height: 130px;
     padding: 0 75px;
     box-sizing: border-box;
@@ -51,7 +49,7 @@ body {
 
 .navbar ul li a {
     text-decoration: none;
-    color: black;
+    color: white;
 }
 
 .navbar ul select {
@@ -61,10 +59,12 @@ body {
     background: transparent;
     border: none;
     width: 24%;
+    color: white;
 }
 
 .navbar ul select option {
     background: transparent;
+    color: black;
 }
 
 .navbar .login {
@@ -79,6 +79,232 @@ body {
 
 .navbar .login li #nome {
     font-weight: bold;
-    color: black;
+    color: white;
     text-decoration: none;
+}
+
+/* GERAL */
+.geral {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: #252525;
+    position: fixed;
+    top: 130px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+/* CARD USUÁRIO */
+.card-usuario {
+    width: 20%;
+    height: 100%;
+    background-color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 0px;
+    overflow: hidden;
+}
+
+.imagem-usuario {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #333;
+    padding: 5px;
+    border: 3px solid #555;
+    margin-bottom: 20px;
+}
+
+.imagem-usuario img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.username {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.informacoes-usuario {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin: 30px 0px;
+    padding: 0px 20px;
+}
+
+.info-quiz,
+.pontuacao {
+    text-align: center;
+}
+
+.info-quiz p,
+.pontuacao p {
+    font-size: 14px;
+    color: #ccc;
+    margin: 0px;
+}
+
+.info-quiz span,
+.pontuacao span {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    display: block;
+}
+
+.exit {
+    display: flex;
+    align-items: center;
+    margin-top: 12%;
+}
+
+.img_saida {
+    width: 30px;
+    margin-right: 10px;
+}
+
+.btnSaida {
+    background: none;
+    border: none;
+    padding: 0px;
+    cursor: pointer;
+}
+
+.btnSaida img {
+    width: 100%;
+    height: auto;
+    filter: invert(1);
+}
+
+.texto_saida {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+}
+
+/* DASHBOARD */
+.dashboard {
+    width: 80%;
+    height: 100%;
+    padding: 40px 30px;
+    overflow-y: auto;
+}
+
+.statusUsuario {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.cardDados {
+    width: 20%;
+    background-color: #1a1a1a;
+    border-radius: 25px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.perguntacasRespondidas,
+.preguntasCorretas,
+.perguntasErradas,
+.pontuacaoUsuario {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.texto-container {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+    width: 60%;
+}
+
+.imgCard {
+    width: 50px;
+    height: 50px;
+    background-color: #333;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imgCard img {
+    width: 30px;
+    height: 30px;
+    filter: invert(1);
+}
+
+.dadosCard {
+    font-size: 16px;
+    color: white;
+    margin-bottom: 5px;
+    font-weight: 500;
+    text-align: left;
+}
+
+.dadosPerguntas {
+    display: flex;
+}
+
+.qtdRealizadas {
+    color: green;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.qtdPergunta {
+    color: white;
+    font-size: 18px;
+    margin-left: 5px;
+}
+
+.qtdCertas {
+    color: green;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.qtdErradas {
+    color: red;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.dadosPontuacao {
+    display: flex;
+}
+
+.dadosPontuacao {
+    color: blue;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.todosOsPontos {
+    color: white;
+    font-size: 18px;
+    margin-left: 5px;
+}
+
+.dashboardCharjs {
+    width: 100%;
+    height: 400px;
+    background-color: #1a1a1a;
+    border-radius: 25px;
+    padding: 20px;
 }

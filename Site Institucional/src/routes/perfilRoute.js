@@ -3,16 +3,16 @@ var router = express.Router();
 
 var perfilController = require("../controllers/perfilController")
 
-router.get("/buscarDadosUsuario", function (req, res) {
-    perfilController.buscarDadosUsuario(req, res)
+router.get("/buscarDadosResultados", function (req, res) {
+    perfilController.buscarDadosResultados(req, res)
 })
 
-router.get("/buscarDadosQuestao", function (req, res) {
-    perfilController.buscarDadosQuestao(req, res)
+router.get("/buscarDadosQuestoes", function (req, res) {
+    perfilController.buscarDadosQuestoes(req, res)
 })
 
-router.get("/buscarDadosResultado", function (req, res) {
-    perfilController.buscarDadosResultado(req, res)
+router.get("/buscarDadosQuiz", function(req, res) {
+    perfilController.buscarDadosQuiz(req, res)
 })
 
 module.exports = router

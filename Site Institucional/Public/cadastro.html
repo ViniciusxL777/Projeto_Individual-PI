@@ -43,7 +43,7 @@
 
       <div class="botao">
         <p>Já possui uma conta? <a href="login.html">clique aqui</a><br>para fazer login</p>
-        <button id="btn-entrar" onclick="cadastrar()">ENTRAR</button>
+        <button id="btn-entrar" onclick="cadastrar()">Cadastrar</button>
 
       </div>
     </div>
@@ -81,7 +81,6 @@
       div_mensagem = `Senha e confirmar senha precisam ser iguais`
     } else {
 
-      //Envio de dados - Tipo POST(Envio)
       fetch('/usuarioRoute/cadastrar', {
         method: "POST",
         headers: {
@@ -94,9 +93,7 @@
         })
       })
       alert(`Cadastro realizado`)
-      setTimeout(() => {
       window.location.href = "login.html"
-    }, 1000);
     }
   }
 </script>

@@ -24,8 +24,30 @@ function respostaQuestao(req, res) {
     var pkUsuario = req.body.usuarioServer
     var pkQuestao = req.body.questaoServer
     var resultadoQuestao = req.body.respostaServer
+    var pontosQuestao = req.body.pontosServer
 
-    quizModel.respostaQuestao(pkUsuario, pkQuestao, resultadoQuestao)
+    quizModel.respostaQuestao(pkUsuario, pkQuestao, resultadoQuestao, pontosQuestao)
+
+        .then(
+            function (resultado) {
+                res.json(resultado)
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro)
+                console.log(
+                    "\n Houve um erro ao armazenar sua resposta! Erro: "
+                );
+                res.status(500).json(erro.sqlMessage)
+            }
+        )
+}
+
+function pontosQuiz(req, res) {
+    var pkUsuario = req.body.pkUsuarioServer
+    var pontos = req.body.pontosServer
+
+    quizModel.pontosQuiz(pkUsuario, pontos)
 
         .then(
             function (resultado) {
@@ -44,5 +66,6 @@ function respostaQuestao(req, res) {
 
 module.exports = {
     buscarQuestao,
-    respostaQuestao
+    respostaQuestao,
+    pontosQuiz
 };
