@@ -15,4 +15,12 @@ router.post("/pontosQuiz", function (req, res) {
     quizController.pontosQuiz(req, res)
 })
 
+router.get("/buscarQuestaoRespondida", function (req, res) {
+    quizController.buscarQuestaoRespondida(req, res)
+})
+
+router.post("/updateResposta", function (req, res) {
+    quizController.updateResposta(req, res)
+})
+
 module.exports = router

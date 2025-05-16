@@ -7,7 +7,7 @@
 }
 
 body {
-    background: #313131;
+    background-color: #1a1a1a;
 }
 
 /* NAVBAR (original mantido) */
@@ -88,7 +88,7 @@ body {
     display: flex;
     width: 100%;
     height: 100%;
-    background-color: #252525;
+    background-color: #1a1a1a;
     position: fixed;
     top: 130px;
     left: 0;
@@ -99,7 +99,7 @@ body {
 
 /* CARD USUÁRIO */
 .card-usuario {
-    width: 20%;
+    width: 19%;
     height: 100%;
     background-color: #1a1a1a;
     display: flex;
@@ -141,19 +141,33 @@ body {
     padding: 0px 20px;
 }
 
-.info-quiz,
+.info-quiz {
+    text-align: center;
+}
+
 .pontuacao {
     text-align: center;
 }
 
-.info-quiz p,
+.info-quiz p {
+    font-size: 14px;
+    color: #ccc;
+    margin: 0px;
+}
+
 .pontuacao p {
     font-size: 14px;
     color: #ccc;
     margin: 0px;
 }
 
-.info-quiz span,
+.info-quiz span {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    display: block;
+}
+
 .pontuacao span {
     font-size: 28px;
     font-weight: bold;
@@ -164,7 +178,7 @@ body {
 .exit {
     display: flex;
     align-items: center;
-    margin-top: 12%;
+    margin-top: 50%;
 }
 
 .img_saida {
@@ -194,10 +208,12 @@ body {
 
 /* DASHBOARD */
 .dashboard {
-    width: 80%;
+    width: 81%;
     height: 100%;
     padding: 40px 30px;
     overflow-y: auto;
+    border-radius: 25px;
+    background-color: #272727;
 }
 
 .statusUsuario {
@@ -215,9 +231,30 @@ body {
     align-items: center;
 }
 
-.perguntacasRespondidas,
-.preguntasCorretas,
-.perguntasErradas,
+.perguntacasRespondidas {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.preguntasCorretas {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.perguntasErradas {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .pontuacaoUsuario {
     width: 100%;
     display: flex;
@@ -302,9 +339,15 @@ body {
 }
 
 .dashboardCharjs {
+    display: flex;
     width: 100%;
     height: 400px;
     background-color: #1a1a1a;
     border-radius: 25px;
     padding: 20px;
+}
+
+.informacaoAdd {
+    width: 20%;
+    color: white;
 }

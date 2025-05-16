@@ -73,11 +73,14 @@ INSERT INTO questao (pergunta, alternativaA, alternativaB, alternativaC, alterna
 ('Qual é o nome do jornal oficial da Sociedade das Almas?', 'Soul News', 'Seireitei News', 'Seireitei Communication', 'Karakura Times', 'alternativaC', 7);
 
 SELECT * FROM usuario;
-SELECT * FROM resposta;
+SELECT * FROM resposta where pkUsuario = 2 ;
 SELECT * FROM questao;
 SELECT * FROM quiz;
 
-SELECT * FROM usuario WHERE idUsuario = 1;
+UPDATE resposta SET resultadoQuestao = 1, pontosQuestao = 10 WHERE pkQuestao = 7 AND pkUsuario = 2;
+SELECT * FROM resposta WHERE pkQuestao = 1;
+
+SELECT * FROM usuario WHERE idUsuario = 2;
 SELECT * FROM questao;
-SELECT * FROM resposta WHERE pkUsuario = 1;
+SELECT * FROM resposta WHERE pkUsuario = 2;
 SELECT * FROM quiz WHERE pkUsuario = 1;

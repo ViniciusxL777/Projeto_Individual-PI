@@ -76,7 +76,7 @@
                                 <div class="qtdPergunta" id="perguntas">/ 30</div>
                             </div>
                         </div>
-                        <div class="imgCard"><img src="" alt=""></div>
+                        <div class="imgCard"><img src="assets/icons/Icone-Pergunta-Bleach-Limpo.png" alt=""></div>
                     </div>
                 </div>
 
@@ -86,7 +86,7 @@
                             <div class="dadosCard">Certas</div>
                             <div class="qtdCertas" id="certa"></div>
                         </div>
-                        <div class="imgCard"><img src="" alt=""></div>
+                        <div class="imgCard"><img src="assets/icons/Icone-Correto-Bleach-Limpo.png" alt=""></div>
                     </div>
                 </div>
 
@@ -96,7 +96,7 @@
                             <div class="dadosCard">Erradas</div>
                             <div class="qtdErradas" id="errada"></div>
                         </div>
-                        <div class="imgCard"><img src="" alt=""></div>
+                        <div class="imgCard"><img src="assets/icons/Icone-Errado-Bleach-Limpo.png" alt=""></div>
                     </div>
                 </div>
 
@@ -109,14 +109,15 @@
                                 <div class="todosOsPontos" id="pontuacaoTotal"></div>
                             </div>
                         </div>
-                        <div class="imgCard"><img src="" alt=""></div>
+                        <div class="imgCard"><img src="assets/icons/Icone-Pontuacao-Bleach-Limpo.png" alt=""></div>
                     </div>
                 </div>
             </div>
             <div class="dashboardCharjs">
-                <canvas>Puxar os quizzes com os seus acertos em forma de graficos de barras indo de 0 a 10</canvas>
+                <canvas id="myChart" style="width: 100%; height: auto;"></canvas>
             </div>
         </div>
+    </div>
     </div>
 
 </body>
@@ -128,21 +129,21 @@
     var nomeUsuario = sessionStorage.NOME_USUARIO
     var email = sessionStorage.EMAIL_USUARIO
     nome.innerHTML = `<p>${nomeUsuario}</p>`
-
-    var dadosQuestao = []
+    
     var dadosRespostas = []
-    var dadosQuizzes = []
-
     var todasRespondidas = []
-    var qtdRespondidas = 0
     var todasRespostas = []
+    var todosPontos = []
     var qtdCorretas = 0
     var qtdErradas = 0
-    var todosPontos = []
-    var totalPontos = 0
-    var todosPontosQuestao = []
     var pontos = 0
-    var qtdQuiz = 0
+    var qtdRespondidas = 0
+    
+    var dadosQuestao = []
+    var todosPontosQuestao = []
+    var totalPontos = 0
+
+    var dadosQuizzes = []
     var totalQuizzes = []
     var todasPontuacaoQuiz = []
 
@@ -219,16 +220,39 @@
             .then(dadosQuiz => {
                 dadosQuizzes = dadosQuiz
                 dadosQuizzes.forEach(resposta => {
-                    totalQuizzes.push(resposta.idQuiz)
-                    todasPontuacaoQuiz.push(resposta.pontos)
+                    totalQuizzes.push(`Quiz ${resposta.idQuiz}`)
+                    todasPontuacaoQuiz.push(`${resposta.pontos}`)
                 });
             })
         setTimeout(() => {
             qtdQuizzes.innerHTML = `<p><span>${totalQuizzes.length}</span></p>
                 <p>Quizzes realizados</p>`
+
+            const graficBar = document.getElementById('myChart');
+
+            new Chart(graficBar, {
+                type: 'bar',
+                data: {
+                    labels: totalQuizzes,
+                    datasets: [{
+                        label: 'Pontos de Cada Quiz',
+                        data: todasPontuacaoQuiz,
+                        borderWidth: 1,
+                        borderColor: '#a52a2a',
+                        backgroundColor: '#ff8c42',
+                        borderRadius: 25,
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
         }, 100);
     }
-
 </script>
 <!-- https://vinicius123.my.canva.site/ -->
 <!-- https://vinicius123.my.canva.site/p-gina-de-perfil-do-usu-rio-site-sobre-bleach -->

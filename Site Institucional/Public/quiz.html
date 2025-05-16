@@ -50,6 +50,8 @@
     var D = 0
     var pontuacao = 0
     var quizPontos = 0
+    var dadosRespondidos = []
+    var questaoRespondida = []
 
     function iniciar() {
         questaoId = parseInt(Math.random() * (29 + 1) + 1)
@@ -64,7 +66,7 @@
     }
 
     function proximo() {
-        if (respostaQuestao() == true) {
+        if (envioDeResposta() == true) {
             controles.innerHTML = ``
             setTimeout(() => {
                 if (ListaQuestoes.length < 10) {
@@ -131,7 +133,16 @@
         }
     }
 
-    function respostaQuestao() {
+    function envioDeResposta() {
+        fetch(`/quizRoute/buscarQuestaoRespondida?pkUsuario=${idUsuario}`)
+            .then(response => response.json())
+            .then(dadosTodasResposta => {
+                dadosRespondidos = dadosTodasResposta
+                dadosRespondidos.forEach(resposta => {
+                    questaoRespondida.push(resposta.pkQuestao)
+                });
+            })
+
         if (respostaSelecionada == ``) {
             alert("Escolha uma alternativa!")
             return false;
@@ -139,17 +150,32 @@
             quizPontos += pontosQuestao
             resultadoQuestao = 1
             pontuacao = pontosQuestao
-            qtdQuestao++
-            fetch(`/quizRoute/respostaQuestao`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    usuarioServer: idUsuario,
-                    questaoServer: questaoId,
-                    respostaServer: resultadoQuestao,
-                    pontosServer: pontuacao
+            if (questaoRespondida.includes(questaoId)) {
+                fetch(`/quizRoute/updateResposta`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        questaoServer: questaoId,
+                        respostaServer: resultadoQuestao,
+                        pontosServer: pontuacao,
+                        usuarioServer: idUsuario
+                    })
                 })
-            })
+            } else {
+                quizPontos += pontosQuestao
+                resultadoQuestao = 1
+                pontuacao = pontosQuestao
+                fetch(`/quizRoute/respostaQuestao`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        usuarioServer: idUsuario,
+                        questaoServer: questaoId,
+                        respostaServer: resultadoQuestao,
+                        pontosServer: pontuacao,
+                    })
+                })
+            }
             if (respostaSelecionada == 'alternativaA') {
                 alternativa_a.innerHTML = `<button onclick="respostaSelecionada = 'alternativaA', btnSelecionado()" class="btnCorreto">${A}</button>`
             } else if (respostaSelecionada == 'alternativaB') {
@@ -159,13 +185,13 @@
             } else if (respostaSelecionada == 'alternativaD') {
                 alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD', btnSelecionado()" class="btnCorreto">${D}</button>`
             }
+            qtdQuestao++
             alert(`Alternativa Correta!!`)
             return true
         } else {
             quizPontos += 0
             pontuacao = 0
             resultadoQuestao = 0
-            qtdQuestao++
             fetch(`/quizRoute/respostaQuestao`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -185,6 +211,7 @@
             } else if (respostaSelecionada == 'alternativaD') {
                 alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD', btnSelecionado()" class="btnErrado">${D}</button>`
             }
+            qtdQuestao++
             alert(`Alternativa Incorreta!!`)
             return true
         }

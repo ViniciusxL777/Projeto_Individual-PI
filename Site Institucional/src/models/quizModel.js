@@ -22,8 +22,24 @@ function pontosQuiz(pkUsuario, pontos) {
     return database.executar(instrucaoSql);
 }
 
+function buscarQuestaoRespondida(pkUsuario) {
+    var instrucaoSql = `
+        SELECT * FROM resposta WHERE pkUsuario = ${pkUsuario};`;
+    console.log("Executando a instrução SQL: Consulta de perguntas respondidas \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function updateResposta(resultadoQuestao, pontosQuestao, pkQuestao, pkUsuario) {
+    var instrucaoSql = `
+        UPDATE resposta SET resultadoQuestao = ${resultadoQuestao}, pontosQuestao = ${pontosQuestao} WHERE pkQuestao = ${pkQuestao} AND pkUsuario = ${pkUsuario};`;
+    console.log("Executando a instrução SQL: Update resposta \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarQuestao,
     respostaQuestao,
-    pontosQuiz
+    pontosQuiz,
+    buscarQuestaoRespondida,
+    updateResposta
 }
