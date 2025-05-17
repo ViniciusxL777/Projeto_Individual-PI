@@ -39,8 +39,12 @@
     <div class="geral">
         <!-- CARD USUÁRIO -->
         <div class="card-usuario">
-            <div class="imagem-usuario">
+            <div class="imagem-usuario" id="imagemPerfilUsuario">
                 <img src="assets/icons/Icone-Arrancara.png" alt="Foto do usuário">
+                <label class="botao_add" for="foto">
+                    <input type="file" accept="image/*" name="foto" id="foto">
+                    <img class="imagemCamera" src="assets/icons/Icone-Camera.png" alt="">
+                </label>
             </div>
             <div id="nome" class="username">
             </div>
@@ -129,7 +133,7 @@
     var nomeUsuario = sessionStorage.NOME_USUARIO
     var email = sessionStorage.EMAIL_USUARIO
     nome.innerHTML = `<p>${nomeUsuario}</p>`
-    
+
     var dadosRespostas = []
     var todasRespondidas = []
     var todasRespostas = []
@@ -138,7 +142,7 @@
     var qtdErradas = 0
     var pontos = 0
     var qtdRespondidas = 0
-    
+
     var dadosQuestao = []
     var todosPontosQuestao = []
     var totalPontos = 0
@@ -160,7 +164,9 @@
     }
 
     function buscarDadosResultados() {
-        fetch(`/perfilRoute/buscarDadosResultados?pkUsuario=${idUsuario}`)
+        fetch(`/perfilRoute/buscarDadosResultados?pkUsuario=${idUsuario}`, {
+            method: "GET"
+        })
             .then(response => response.json())
             .then(dadosResultados => {
                 dadosRespostas = dadosResultados
@@ -198,7 +204,9 @@
     }
 
     function buscarDadosQuestoes() {
-        fetch(`/perfilRoute/buscarDadosQuestoes`)
+        fetch(`/perfilRoute/buscarDadosQuestoes`, {
+            method: "GET"
+        })
             .then(response => response.json())
             .then(dadosQuestoes => {
                 dadosQuestao = dadosQuestoes
@@ -215,7 +223,9 @@
     }
 
     function buscarDadosQuiz() {
-        fetch(`/perfilRoute/buscarDadosQuiz?pkUsuario=${idUsuario}`)
+        fetch(`/perfilRoute/buscarDadosQuiz?pkUsuario=${idUsuario}`, {
+            method: "GET"
+        })
             .then(response => response.json())
             .then(dadosQuiz => {
                 dadosQuizzes = dadosQuiz
@@ -252,6 +262,40 @@
                 }
             });
         }, 100);
+    }
+
+    function trocarImagemDePerfil() {
+        const formData = new FormData();
+        formData.append('imagemUsuario', foto.files[0])
+        formData.append('nome', nomeUsuario)
+        formData.append('idUsuario', idUsuario)
+
+        fetch("/fotoPerfilRoute/trocarImagemDePerfil", {
+            method: "POST",
+            body: formData
+        })
+            .then(res => {
+                atualizarFotoPerfilUsuario()
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+    function atualizarFotoPerfilUsuario() {
+        fetch(`/fotoPerfilRoute/atualizarFotoPerfilUsuario/${buscaInput.value}`, {
+            method: "GET"
+        })
+            .then(res => {
+                res.json().then(json => {
+                    
+                    imagemPerfilUsuario.innerHTML = `
+                    <img src="assets/fotosUsuario/${usuario.imagem_perfil}" alt="Foto do usuário">`
+                })
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 </script>
 <!-- https://vinicius123.my.canva.site/ -->

@@ -5,7 +5,8 @@ CREATE TABLE usuario (
  idUsuario INT PRIMARY KEY AUTO_INCREMENT,
  nome VARCHAR(100) UNIQUE NOT NULL,
  email VARCHAR(100) UNIQUE NOT NULL,
- senha VARCHAR(100) NOT NULL
+ senha VARCHAR(100) NOT NULL,
+ imagemPerfil TEXT
 );
 
 CREATE TABLE questao (
@@ -22,7 +23,7 @@ pontos INT
 CREATE TABLE resposta (
 idResposta INT AUTO_INCREMENT,
 pkUsuario INT NOT NULL,
-pkQuestao INT UNIQUE NOT NULL,
+pkQuestao INT NOT NULL,
 CONSTRAINT pkComposta PRIMARY KEY (idResposta, pkusuario, pkQuestao),
 CONSTRAINT pkUsuarioResposta FOREIGN KEY (pkUsuario) REFERENCES usuario (idUsuario),
 CONSTRAINT pkQuestaoResposta FOREIGN KEY (pkQuestao) REFERENCES questao (idQuestao),
@@ -73,7 +74,7 @@ INSERT INTO questao (pergunta, alternativaA, alternativaB, alternativaC, alterna
 ('Qual é o nome do jornal oficial da Sociedade das Almas?', 'Soul News', 'Seireitei News', 'Seireitei Communication', 'Karakura Times', 'alternativaC', 7);
 
 SELECT * FROM usuario;
-SELECT * FROM resposta where pkUsuario = 2 ;
+SELECT * FROM resposta where pkUsuario = 3;
 SELECT * FROM questao;
 SELECT * FROM quiz;
 

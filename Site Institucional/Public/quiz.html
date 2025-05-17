@@ -92,7 +92,9 @@
     }
 
     function buscarQuestao() {
-        fetch(`/quizRoute/buscarQuestao?idQuestao=${questaoId}`)
+        fetch(`/quizRoute/buscarQuestao?idQuestao=${questaoId}`, {
+            method: "GET"
+        })
             .then(response => response.json())
             .then(dadosQuestao => {
                 alternativaCorreta = dadosQuestao.alternativaCorreta,
@@ -134,7 +136,9 @@
     }
 
     function envioDeResposta() {
-        fetch(`/quizRoute/buscarQuestaoRespondida?pkUsuario=${idUsuario}`)
+        fetch(`/quizRoute/buscarQuestaoRespondida?pkUsuario=${idUsuario}`, {
+            method: "GET"
+        })
             .then(response => response.json())
             .then(dadosTodasResposta => {
                 dadosRespondidos = dadosTodasResposta
