@@ -31,9 +31,8 @@
             <li><a href="sobreNos.html">Sobre nós</a></li>
         </ul>
         <ul class="login">
-            <div id="imagemPefil">
-                <img style="width: 100px; height: 100px;" src="assets/icons/Icone-Shinigami-SemFundo.png" alt="">
-            </div>
+            <div id="imagemPerfil"><img style="width: 100px; height: 100px;"
+                    src="assets/icons/Icone-Shinigami-SemFundo.png" alt=""></div>
             <li>
                 <a href="perfil.html">
                     <div id="nome"></div>
@@ -186,7 +185,7 @@
 </html>
 <script>
     nome.innerHTML = sessionStorage.NOME_USUARIO
-    imagemPerfil.innerHTML = `<img style="width: 100px; height: 100px;" src="assets/fotoUsuario/${sessionStorage.IMAGEM_PERFIL}" alt="">`
+    imagemPerfil.innerHTML = `<img style="width: 100px; height: 100px;" src="assets/fotosUsuario/${sessionStorage.IMAGEM_PERFIL}" alt="">`
 
     function mudarPagina() {
         var select = select_informacao.value
