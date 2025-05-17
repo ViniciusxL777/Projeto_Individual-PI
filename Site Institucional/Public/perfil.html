@@ -40,7 +40,9 @@
         <!-- CARD USUÁRIO -->
         <div class="card-usuario">
             <div class="imagem-usuario" id="imagemPerfilUsuario">
-                <img src="assets/icons/Icone-Arrancara.png" alt="Foto do usuário">
+                <div id="imagemPerfil" style="height: 100%; width: 100%;">
+                    <img src="assets/fotosUsuario/" alt="Foto do usuário">
+                </div>
                 <label class="botao_add" for="foto" onchange="trocarImagemDePerfil()">
                     <input type="file" accept="image/*" name="foto" id="foto">
                     <img class="imagemCamera" src="assets/icons/Icone-Camera.png" alt="">
@@ -133,6 +135,7 @@
     var nomeUsuario = sessionStorage.NOME_USUARIO
     var email = sessionStorage.EMAIL_USUARIO
     var fotoPerfil = sessionStorage.IMAGEM_PERFIL
+    imagemPerfil.innerHTML = `<img style="width: 100%; height: 100%;" src="assets/fotosUsuario/${fotoPerfil}" alt="">`
     nome.innerHTML = `<p>${nomeUsuario}</p>`
 
     var dadosRespostas = []
