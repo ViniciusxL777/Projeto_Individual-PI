@@ -1,29 +1,28 @@
-const usuarioModel = require('../models/fotoPerfilModel');
+const fotoPerfilModel = require('../models/fotoPerfilModel');
 
 
 function trocarImagemDePerfil(req, res) {
-    const imagem = req.file.filename;
+    var imagem = req.file.filename;
+    var idUsuario = req.body.idUsuario;
 
-    const { nome, email } = req.body
-
-    const usuario = { nome, email, imagem }
-
-    usuarioModel.trocarImagemDePerfil(usuario)
+    fotoPerfilModel.trocarImagemDePerfil(imagem, idUsuario)
         .then(resultado => {
-            res.status(201).send("Usuario criado com sucesso");
+            res.status(201).send("Imagem de perfil atualizada com sucesso");
         }).catch(err => {
-            res.status(500).send(err);
+            console.error(err);
+            res.status(500).send("Erro ao atualizar imagem de perfil");
         });
 }
 
 function atualizarFotoPerfilUsuario(req, res) {
-    idUsuario = req.body.idUsuario
-    fotoPerfil = req.params.id
-    usuarioModel.atualizarFotoPerfilUsuario(req.params.id)
+    var idUsuario = req.query.idUsuario;
+
+    fotoPerfilModel.atualizarFotoPerfilUsuario(idUsuario)
         .then(resultado => {
-            res.json(resultado);
-        }).catch(err => {
-            res.status(500).send(err);
+            res.status(200).json(resultado[0]);
+        }).catch(erro => {
+            console.error(erro);
+            res.status(500).json(erro.sqlMessage);
         });
 }
 

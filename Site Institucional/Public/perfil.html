@@ -41,7 +41,7 @@
         <div class="card-usuario">
             <div class="imagem-usuario" id="imagemPerfilUsuario">
                 <img src="assets/icons/Icone-Arrancara.png" alt="Foto do usuário">
-                <label class="botao_add" for="foto">
+                <label class="botao_add" for="foto" onchange="trocarImagemDePerfil()">
                     <input type="file" accept="image/*" name="foto" id="foto">
                     <img class="imagemCamera" src="assets/icons/Icone-Camera.png" alt="">
                 </label>
@@ -132,6 +132,7 @@
     var idUsuario = sessionStorage.ID_USUARIO
     var nomeUsuario = sessionStorage.NOME_USUARIO
     var email = sessionStorage.EMAIL_USUARIO
+    var fotoPerfil = sessionStorage.IMAGEM_PERFIL
     nome.innerHTML = `<p>${nomeUsuario}</p>`
 
     var dadosRespostas = []
@@ -198,7 +199,7 @@
             certa.innerHTML = `${qtdCorretas}`
             errada.innerHTML = `${qtdErradas}`
             pontosUsuarioEsquerdo.innerHTML = `<p><span>${pontos}</span></p>
-            <p>Pontos totais</p>`
+                <p>Pontos totais</p>`
             pontuacaoDashboard.innerHTML = `${pontos}`
         }, 100);
     }
@@ -236,7 +237,7 @@
             })
         setTimeout(() => {
             qtdQuizzes.innerHTML = `<p><span>${totalQuizzes.length}</span></p>
-                <p>Quizzes realizados</p>`
+                    <p>Quizzes realizados</p>`
 
             const graficBar = document.getElementById('myChart');
 
@@ -265,38 +266,58 @@
     }
 
     function trocarImagemDePerfil() {
-        const formData = new FormData();
-        formData.append('imagemUsuario', foto.files[0])
-        formData.append('nome', nomeUsuario)
-        formData.append('idUsuario', idUsuario)
 
-        fetch("/fotoPerfilRoute/trocarImagemDePerfil", {
-            method: "POST",
-            body: formData
-        })
-            .then(res => {
-                atualizarFotoPerfilUsuario()
+        if (
+            !foto.value.endsWith(".png") &&
+            !foto.value.endsWith(".jpeg") &&
+            !foto.value.endsWith(".jpg") &&
+            !foto.value.endsWith(".webp") &&
+            !foto.value.endsWith(".svg")) {
+
+            alert(`Tipo de imagem não suportado`)
+
+        } else {
+            console.log(idUsuario, foto)
+
+            const formData = new FormData()
+            formData.append('foto', foto.files[0])
+            formData.append('idUsuario', idUsuario)
+
+            fetch("/fotoPerfilRoute/trocarImagemDePerfil", {
+                method: "POST",
+                body: formData
+            }).then(res => {
+                console.log(res)
+                alert(`Imagem enviada, atualize a página`)
+                setTimeout(() => {
+                    atualizarFotoPerfilUsuario()
+                }, 100);
+            }).catch(err => {
+                console.log(erro)
             })
-            .catch(err => {
-                console.log(err);
-            })
+        }
     }
 
     function atualizarFotoPerfilUsuario() {
-        fetch(`/fotoPerfilRoute/atualizarFotoPerfilUsuario/${buscaInput.value}`, {
+        console.log(`Esse é o idUsuario? ${idUsuario}`)
+        fetch(`fotoPerfilRoute/atualizarFotoPerfilUsuario?idUsuario=${idUsuario}`, {
             method: "GET"
         })
-            .then(res => {
-                res.json().then(json => {
-                    
-                    imagemPerfilUsuario.innerHTML = `
-                    <img src="assets/fotosUsuario/${usuario.imagem_perfil}" alt="Foto do usuário">`
-                })
-            })
-            .catch(err => {
-                console.log(err);
+            .then(res => res.json())
+            .then(dadosPerfil => {
+                console.log(`Esses são os dados perfil ${dadosPerfil.imagemPerfil}`)
+
+                fotoPerfil = dadosPerfil.imagemPerfil
+
+                sessionStorage.IMAGEM_PERFIL = fotoPerfil
+                imagemPerfilUsuario.innerHTML = `<img src="assets/fotosUsuario/${fotoPerfil}" alt="">
+                        <label class="botao_add" for="foto">
+                            <input type="file" accept="image/*" name="foto" id="foto">
+                            <img class="imagemCamera" src="assets/icons/Icone-Camera.png" alt="">
+                        </label>`
             })
     }
+
 </script>
 <!-- https://vinicius123.my.canva.site/ -->
 <!-- https://vinicius123.my.canva.site/p-gina-de-perfil-do-usu-rio-site-sobre-bleach -->

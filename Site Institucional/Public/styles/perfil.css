@@ -124,7 +124,6 @@ body {
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    cursor: pointer;
 }
 
 .botao_add {
@@ -138,6 +137,7 @@ body {
     border: 2px solid #555;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 .botao_add img {

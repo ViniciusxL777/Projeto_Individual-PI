@@ -1,14 +1,12 @@
 const database = require("../database/config");
 
-function trocarImagemDePerfil(usuario) {
-    const instrucao = `UPTADE usuario SET imagemPerfil = ${imagemPerfil}`;
-
+function trocarImagemDePerfil(imagem, idUsuario) {
+    const instrucao = `UPDATE usuario SET imagemPerfil = "${imagem}" WHERE idUsuario = ${idUsuario}`;
     return database.executar(instrucao);
 }
 
 function atualizarFotoPerfilUsuario(idUsuario) {
-    const instrucao = `select * from usuario where idUsuario = ${idUsuario}`;
-
+    const instrucao = `SELECT imagemPerfil FROM usuario WHERE idUsuario = ${idUsuario}`;
     return database.executar(instrucao);
 }
 
