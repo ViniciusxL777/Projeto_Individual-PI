@@ -109,6 +109,11 @@ body {
   color: #ffffff;
 }
 
+.botao p a {
+  text-decoration: none;
+  color: blue;
+}
+
 #btn-entrar {
   width: 140px;
   height: 50px;
