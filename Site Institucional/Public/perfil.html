@@ -31,8 +31,9 @@
             <li><a href="quiz.html">Quiz</a></li>
             <li><a href="sobreNos.html">Sobre nós</a></li>
         </ul>
-        <ul class="login"><img style="width: 100px; height: 100px;" src="assets/icons/Icone-Shinigami-SemFundo.png"
-                alt="icone polus">
+        <ul class="login">
+            <div id="fotoPerfilNavbar"><img style="width: 100px; height: 100px;"
+                    src="assets/icons/Icone-Shinigami-SemFundo.png" alt=""></div>
         </ul>
     </nav>
 
@@ -137,6 +138,8 @@
     var fotoPerfil = sessionStorage.IMAGEM_PERFIL
     imagemPerfil.innerHTML = `<img style="width: 100%; height: 100%;" src="assets/fotosUsuario/${fotoPerfil}" alt="">`
     nome.innerHTML = `<p>${nomeUsuario}</p>`
+    fotoPerfilNavbar.innerHTML = `<img style="width: 100px; height: 100px;"
+                    src="assets/fotosUsuario/${fotoPerfil}" alt="">`
 
     var dadosRespostas = []
     var todasRespondidas = []

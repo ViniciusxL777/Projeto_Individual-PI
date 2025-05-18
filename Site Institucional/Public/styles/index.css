@@ -17,11 +17,10 @@ body {
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 100%;
   background: #9B383A;
   height: 130px;
-  padding: 0 75px;
   box-sizing: border-box;
 }
 
