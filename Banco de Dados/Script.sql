@@ -2,43 +2,66 @@ CREATE DATABASE bleach_info;
 USE bleach_info;
 
 CREATE TABLE usuario (
- idUsuario INT PRIMARY KEY AUTO_INCREMENT,
- nome VARCHAR(100) UNIQUE NOT NULL,
- email VARCHAR(100) UNIQUE NOT NULL,
- senha VARCHAR(100) NOT NULL,
- imagemPerfil TEXT
+    idUsuario INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    senha VARCHAR(100) NOT NULL,
+    imagemPerfil TEXT
 );
 
 CREATE TABLE questao (
-idQuestao INT PRIMARY KEY AUTO_INCREMENT,
-pergunta VARCHAR(300),
-alternativaA VARCHAR(100),
-alternativaB VARCHAR(100),
-alternativaC VARCHAR(100),
-alternativaD VARCHAR(100),
-alternativaCorreta CHAR(12),
-pontos INT
+    idQuestao INT PRIMARY KEY AUTO_INCREMENT,
+    pergunta VARCHAR(300),
+    alternativaA VARCHAR(100),
+    alternativaB VARCHAR(100),
+    alternativaC VARCHAR(100),
+    alternativaD VARCHAR(100),
+    alternativaCorreta CHAR(12),
+    pontos INT
 );
 
 CREATE TABLE resposta (
-idResposta INT AUTO_INCREMENT,
-pkUsuario INT NOT NULL,
-pkQuestao INT NOT NULL,
-CONSTRAINT pkComposta PRIMARY KEY (idResposta, pkusuario, pkQuestao),
-CONSTRAINT pkUsuarioResposta FOREIGN KEY (pkUsuario) REFERENCES usuario (idUsuario),
-CONSTRAINT pkQuestaoResposta FOREIGN KEY (pkQuestao) REFERENCES questao (idQuestao),
-resultadoQuestao INT,
-CONSTRAINT chkResultadoQuestao CHECK (resultadoQuestao IN (1,0)),
-pontosQuestao INT
+    idResposta INT AUTO_INCREMENT,
+    pkUsuario INT NOT NULL,
+    pkQuestao INT NOT NULL,
+    CONSTRAINT pkComposta PRIMARY KEY (idResposta , pkusuario , pkQuestao),
+    CONSTRAINT pkUsuarioResposta FOREIGN KEY (pkUsuario)
+        REFERENCES usuario (idUsuario),
+    CONSTRAINT pkQuestaoResposta FOREIGN KEY (pkQuestao)
+        REFERENCES questao (idQuestao),
+    resultadoQuestao INT,
+    CONSTRAINT chkResultadoQuestao CHECK (resultadoQuestao IN (1 , 0)),
+    pontosQuestao INT
 );
 
 CREATE TABLE quiz (
-idQuiz INT AUTO_INCREMENT,
-pkUsuario INT,
-PRIMARY KEY (idQuiz, pkUsuario),
-CONSTRAINT pkUsuarioQuiz FOREIGN KEY (pkUsuario)
-	REFERENCES usuario (idusuario),
-pontos INT
+    idQuiz INT AUTO_INCREMENT,
+    pkUsuario INT,
+    PRIMARY KEY (idQuiz , pkUsuario),
+    CONSTRAINT pkUsuarioQuiz FOREIGN KEY (pkUsuario)
+        REFERENCES usuario (idusuario),
+    pontos INT
+);
+
+CREATE TABLE debates (
+    idDebate INT PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR(100)
+);
+
+CREATE TABLE comentario (
+    idComentario INT PRIMARY KEY AUTO_INCREMENT,
+    comentario TEXT,
+    imagem TEXT
+);
+
+CREATE TABLE coemntarioDebate (
+    pkComentario INT,
+    pkDebate INT,
+    PRIMARY KEY (pkComentario , pkDebate),
+    CONSTRAINT pkComentarioDebate FOREIGN KEY (pkComentario)
+        REFERENCES comentario (idComentario),
+    CONSTRAINT pkDebateComentario FOREIGN KEY (pkDebate)
+        REFERENCES debates (idDebate)
 );
 
 INSERT INTO questao (pergunta, alternativaA, alternativaB, alternativaC, alternativaD, alternativaCorreta, pontos) VALUES
