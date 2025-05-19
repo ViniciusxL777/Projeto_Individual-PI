@@ -74,6 +74,7 @@ body {
   background: #000000;
   border-radius: 50%;
   margin-right: 15px;
+  object-fit: cover;
 }
 
 .navbar .login li a {

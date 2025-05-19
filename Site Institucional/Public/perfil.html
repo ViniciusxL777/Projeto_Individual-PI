@@ -317,10 +317,10 @@
 
                 sessionStorage.IMAGEM_PERFIL = fotoPerfil
                 imagemPerfilUsuario.innerHTML = `<img src="assets/fotosUsuario/${fotoPerfil}" alt="">
-                        <label class="botao_add" for="foto">
-                            <input type="file" accept="image/*" name="foto" id="foto">
-                            <img class="imagemCamera" src="assets/icons/Icone-Camera.png" alt="">
-                        </label>`
+                        <label class="botao_add" for="foto" onchange="trocarImagemDePerfil()">
+                    <input type="file" accept="image/*" name="foto" id="foto">
+                    <img class="imagemCamera" src="assets/icons/Icone-Camera.jpg" alt="">
+                </label>`
             })
     }
 

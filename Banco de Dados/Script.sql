@@ -74,6 +74,7 @@ INSERT INTO questao (pergunta, alternativaA, alternativaB, alternativaC, alterna
 ('Qual é o nome do jornal oficial da Sociedade das Almas?', 'Soul News', 'Seireitei News', 'Seireitei Communication', 'Karakura Times', 'alternativaC', 7);
 
 SELECT * FROM usuario;
+SELECT imagemPerfil FROM usuario WHERE idUsuario = 2;
 SELECT * FROM resposta where pkUsuario = 3;
 SELECT * FROM questao;
 SELECT * FROM quiz;
