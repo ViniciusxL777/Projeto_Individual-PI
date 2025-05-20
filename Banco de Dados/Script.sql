@@ -10,20 +10,20 @@ CREATE TABLE usuario (
 );
 
 CREATE TABLE questao (
-    idQuestao INT PRIMARY KEY AUTO_INCREMENT,
-    pergunta VARCHAR(300),
-    alternativaA VARCHAR(100),
-    alternativaB VARCHAR(100),
-    alternativaC VARCHAR(100),
-    alternativaD VARCHAR(100),
-    alternativaCorreta CHAR(12),
-    pontos INT
+    idQuestao INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    pergunta VARCHAR(300) NOT NULL,
+    alternativaA VARCHAR(100) NOT NULL,
+    alternativaB VARCHAR(100) NOT NULL,
+    alternativaC VARCHAR(100) NOT NULL,
+    alternativaD VARCHAR(100) NOT NULL,
+    alternativaCorreta CHAR(12) NOT NULL,
+    pontos INT NOT NULL
 );
 
 CREATE TABLE resposta (
     idResposta INT AUTO_INCREMENT,
-    pkUsuario INT NOT NULL,
-    pkQuestao INT NOT NULL,
+    pkUsuario INT,
+    pkQuestao INT,
     CONSTRAINT pkComposta PRIMARY KEY (idResposta , pkusuario , pkQuestao),
     CONSTRAINT pkUsuarioResposta FOREIGN KEY (pkUsuario)
         REFERENCES usuario (idUsuario),
@@ -35,28 +35,28 @@ CREATE TABLE resposta (
 );
 
 CREATE TABLE quiz (
-    idQuiz INT AUTO_INCREMENT,
-    pkUsuario INT,
+    idQuiz INT AUTO_INCREMENT NOT NULL,
+    pkUsuario INT NOT NULL,
     PRIMARY KEY (idQuiz , pkUsuario),
     CONSTRAINT pkUsuarioQuiz FOREIGN KEY (pkUsuario)
         REFERENCES usuario (idusuario),
-    pontos INT
+    pontos INT NOT NULL
 );
 
 CREATE TABLE debates (
-    idDebate INT PRIMARY KEY AUTO_INCREMENT,
-    titulo VARCHAR(100)
+    idDebate INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    titulo VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE comentario (
-    idComentario INT PRIMARY KEY AUTO_INCREMENT,
+    idComentario INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     comentario TEXT,
     imagem TEXT
 );
 
 CREATE TABLE coemntarioDebate (
-    pkComentario INT,
-    pkDebate INT,
+    pkComentario INT NOT NULL,
+    pkDebate INT NOT NULL,
     PRIMARY KEY (pkComentario , pkDebate),
     CONSTRAINT pkComentarioDebate FOREIGN KEY (pkComentario)
         REFERENCES comentario (idComentario),
@@ -98,7 +98,7 @@ INSERT INTO questao (pergunta, alternativaA, alternativaB, alternativaC, alterna
 
 SELECT * FROM usuario;
 SELECT imagemPerfil FROM usuario WHERE idUsuario = 2;
-SELECT * FROM resposta where pkUsuario = 3;
+SELECT * FROM resposta where pkUsuario = 2;
 SELECT * FROM questao;
 SELECT * FROM quiz;
 

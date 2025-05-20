@@ -167,7 +167,7 @@
 
     function limparSessao() {
         sessionStorage.clear();
-        window.location = "../login.html";
+        window.location = "../login.html"
     }
 
     function buscarDadosResultados() {
@@ -207,7 +207,7 @@
             pontosUsuarioEsquerdo.innerHTML = `<p><span>${pontos}</span></p>
                 <p>Pontos totais</p>`
             pontuacaoDashboard.innerHTML = `${pontos}`
-        }, 100);
+        }, 300);
     }
 
     function buscarDadosQuestoes() {
@@ -226,7 +226,7 @@
                 totalPontos += todosPontosQuestao[i - 1]
             }
             pontuacaoTotal.innerHTML = `/${totalPontos}`
-        }, 100);
+        }, 300);
     }
 
     function buscarDadosQuiz() {
@@ -268,7 +268,7 @@
                     }
                 }
             });
-        }, 100);
+        }, 150);
     }
 
     function trocarImagemDePerfil() {
@@ -294,10 +294,9 @@
                 body: formData
             }).then(res => {
                 console.log(res)
-                alert(`Imagem enviada, atualize a página`)
                 setTimeout(() => {
                     atualizarFotoPerfilUsuario()
-                }, 100);
+                }, 300);
             }).catch(err => {
                 console.log(erro)
             })
@@ -321,6 +320,7 @@
                     <input type="file" accept="image/*" name="foto" id="foto">
                     <img class="imagemCamera" src="assets/icons/Icone-Camera.jpg" alt="">
                 </label>`
+                window.location = "../perfil.html"
             })
     }
 
