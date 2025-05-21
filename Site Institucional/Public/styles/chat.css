@@ -96,6 +96,36 @@ body {
   padding: 40px;
 }
 
+.debate {
+  display: flex;
+  justify-self: center;
+  width: auto;
+  height: 60px;
+  
+  text-align: center;
+}
+
+.debate button {
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  border: 0px;
+  color: white;
+  font-size: 42px;
+  font-weight: 500;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #3b3b3b;
+  cursor: pointer;
+}
+
+.debate button p {
+  position: relative;
+  bottom: 10px;
+}
+
 .titulo_debate h1 {
   font-size: 42px;
   text-align: center;
@@ -190,7 +220,7 @@ body {
   word-wrap: break-word;
 }
 
-.sub_conteudo .comentario .imagens img{
+.sub_conteudo .comentario .imagens img {
   max-height: 400px;
   border-radius: 25px;
 }
@@ -215,7 +245,8 @@ body {
 .comentarCampos {
   display: flex;
   gap: 10px;
-  margin-bottom: 50px; /* espaço para o botão */
+  margin-bottom: 50px;
+  /* espaço para o botão */
 }
 
 .inputComentarTexto {
