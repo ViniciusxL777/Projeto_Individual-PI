@@ -37,7 +37,7 @@ function buscarDadosQuestoes(req, res) {
 }
 
 function buscarDadosQuiz(req, res) {
-    var pkUsuario = req.query.pkUsuario; // Certifique-se que o nome do parâmetro bate com o frontend
+    var pkUsuario = req.query.pkUsuario;
 
     perfilModel.buscarDadosQuiz(pkUsuario)
         .then(

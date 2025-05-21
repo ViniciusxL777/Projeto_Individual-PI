@@ -1,6 +1,5 @@
 const fotoPerfilModel = require('../models/fotoPerfilModel');
 
-
 function trocarImagemDePerfil(req, res) {
     var imagem = req.file.filename;
     var idUsuario = req.body.idUsuario;

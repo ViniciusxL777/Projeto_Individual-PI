@@ -19,6 +19,7 @@ var usuarioRouter = require("./src/routes/usuarioRoute");
 var quizRouter = require("./src/routes/quizRoute");
 var perfilRouter = require("./src/routes/perfilRoute");
 var fotoPerfilRouter = require("./src/routes/fotoPerfilRoute");
+var chatRouter = require("./src/routes/chatRoute");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -30,6 +31,7 @@ app.use("/usuarioRoute", usuarioRouter);
 app.use("/quizRoute", quizRouter);
 app.use("/perfilRoute", perfilRouter);
 app.use("/fotoPerfilRoute", fotoPerfilRouter);
+app.use("/chatRoute", chatRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`
