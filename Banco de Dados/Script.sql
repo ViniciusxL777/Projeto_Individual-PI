@@ -44,17 +44,23 @@ CREATE TABLE quiz (
 );
 
 CREATE TABLE debates (
-    idDebate INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    idDebate INT AUTO_INCREMENT NOT NULL,
+    pkUsuario INT,
+    PRIMARY KEY (idDebate , pkUsuario),
     titulo VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE comentario (
-    idComentario INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    idComentario INT AUTO_INCREMENT NOT NULL,
+    pkUsuario INT NOT NULL,
+    PRIMARY KEY (idComentario , pkUsuario),
+    CONSTRAINT pkUsuarioComentario FOREIGN KEY (pkUsuario)
+        REFERENCES usuario (idUsuario),
     comentario TEXT,
     imagem TEXT
 );
 
-CREATE TABLE coemntarioDebate (
+CREATE TABLE comentarioDebate (
     pkComentario INT NOT NULL,
     pkDebate INT NOT NULL,
     PRIMARY KEY (pkComentario , pkDebate),
@@ -109,3 +115,44 @@ SELECT * FROM usuario WHERE idUsuario = 2;
 SELECT * FROM questao;
 SELECT * FROM resposta WHERE pkUsuario = 2;
 SELECT * FROM quiz WHERE pkUsuario = 1;
+
+SELECT 
+    debates.idDebate,
+    comentario.idComentario,
+    comentario.pkUsuario,
+    usuario.nome,
+    usuario.imagemPerfil,
+    debates.titulo,
+    comentario.comentario,
+    comentario.imagem
+FROM
+    debates
+        JOIN
+    comentarioDebate ON comentarioDebate.pkComentario = debates.idDebate
+        JOIN
+    comentario ON comentario.idComentario = comentarioDebate.pkComentario
+        JOIN
+    usuario ON usuario.idUsuario = comentario.pkUsuario
+WHERE
+    debates.idDebate = 0;
+    
+SELECT * FROM comentarioDebate;
+SELECT * FROM debates;
+
+SELECT 
+    usuario.nome,
+    usuario.imagemPerfil,
+    comentario.comentario,
+    comentario.imagem,
+    comentario.idComentario,
+    debates.idDebate
+FROM
+    usuario
+        JOIN
+    comentario ON usuario.idUsuario = comentario.pkUsuario
+        JOIN
+    comentarioDebate ON comentarioDebate.pkComentario = comentario.idComentario
+        JOIN
+    debates ON comentarioDebate.pkDebate = debates.idDebate
+WHERE
+    debates.idDebate = 1;

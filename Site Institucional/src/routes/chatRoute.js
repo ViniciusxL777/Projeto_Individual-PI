@@ -1,18 +1,22 @@
 var express = require("express");
 var router = express.Router();
 
-var perfilController = require("../controllers/chatController")
+var chatController = require("../controllers/chatController")
 
 router.get("/trazerTodosDebates", function (req, res) {
-    perfilController.trazerTodosDebates(req, res)
+    chatController.trazerTodosDebates(req, res)
 })
 
 router.get("/trazerConteudoDebate", function (req, res) {
-    perfilController.trazerConteudoDebate(req, res)
+    chatController.trazerConteudoDebate(req, res)
 })
 
 router.get("/enviarComentarioTextoImagem", function (req, res) {
-    perfilController.enviarComentarioTextoImagem(req, res)
+    chatController.enviarComentarioTextoImagem(req, res)
+})
+
+router.post("/cadastrarDebate", function (req, res) {
+    chatController.cadastrarDebate(req, res)
 })
 
 module.exports = router

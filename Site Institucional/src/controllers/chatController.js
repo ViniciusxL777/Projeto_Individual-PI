@@ -1,8 +1,8 @@
-var perfilModel = require("../models/chatModel")
+var chatModel = require("../models/chatModel")
 
 function trazerTodosDebates(req, res) {
 
-    perfilModel.trazerTodosDebates()
+    chatModel.trazerTodosDebates()
         .then(
             function (resultado) {
                 res.json(resultado)
@@ -19,9 +19,10 @@ function trazerTodosDebates(req, res) {
 }
 
 function trazerConteudoDebate(req, res) {
-    var pkDebate = req.query.pkDebate
+    var idDebate = req.query.idDebate
 
-    perfilModel.trazerConteudoDebate(pkDebate)
+    chatModel.trazerConteudoDebate(idDebate)
+
         .then(
             function (resultado) {
                 res.json(resultado)
@@ -30,7 +31,7 @@ function trazerConteudoDebate(req, res) {
             function (erro) {
                 console.log(erro)
                 console.log(
-                    "\n Houve um erro ao buscar dadosResultados do usuário! Erro: "
+                    "\n Houve um erro ao buscar dados debates! Erro: "
                 );
                 res.status(500).json(erro.sqlMessage)
             }
@@ -43,7 +44,7 @@ function enviarComentarioTextoImagem(req, res) {
     var pkDebate = req.body.pkDebateServer
     var pkUsuario = req.body.usuarioServer
 
-    quizModel.respostaQuestao(pkUsuario, comentario, pkDebate)
+    chatModel.enviarComentarioTextoImagem(pkUsuario, comentario, pkDebate)
 
         .then(
             function (resultado) {
@@ -60,8 +61,30 @@ function enviarComentarioTextoImagem(req, res) {
         )
 }
 
+function cadastrarDebate(req, res) {
+    var pkUsuario = req.body.pkUsuarioServer
+    var titulo = req.body.tituloServer
+
+    chatModel.cadastrarDebate(pkUsuario, titulo)
+
+        .then(
+            function (resultado) {
+                res.json(resultado)
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro)
+                console.log(
+                    "\n Houve um erro ao cadastrar seu debate! Erro: "
+                );
+                res.status(500).json(erro.sqlMessage)
+            }
+        )
+}
+
 module.exports = {
     trazerTodosDebates,
     trazerConteudoDebate,
-    enviarComentarioTextoImagem
+    enviarComentarioTextoImagem,
+    cadastrarDebate
 };

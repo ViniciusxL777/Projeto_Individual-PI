@@ -50,51 +50,53 @@
                 <button onclick="cadastrarDebate()">Cadastrar Debate</button>
             </div>
             <div id="geral">
-                <div class="debate" id="1">
-                    <button onclick="exibirDebate()">
-                        <p>Debate</p>
-                    </button>
-                </div>
-                <div class="sub_titulo" id="">
-                    <div class="texto-imagem">
-                        <div class="texto">
-                            <h2><button onclick="trazerConteudoDebate()">Titulo Debate</button></h2>
-                            <div class="sub_conteudo" id="">
-                                <div class="comentario">
-                                    <div class="usuarioComentario" id="usuarioComentario">
-                                        <p>ViniciusxL</p>
-                                        <img src="assets/icons/Icone-Arrancara-SemFundo.png" alt="">
-                                    </div>
-                                    <div class="comentarioTexto">
-                                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos, cupiditate
-                                            dolore
-                                            corrupti
-                                            perferendis provident suscipit consequuntur. Laudantium ut perspiciatis,
-                                            veniam
-                                            doloremque vitae, atque deleniti repudiandae illo vel, repellat optio
-                                            obcaecati?
-                                        </p>
-                                    </div>
-                                    <div class="imagens"><img
-                                            src="assets/imgs/Quincy - Ataques De Flechas Espirituais.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="comentar">
-                                    <div class="comentar">
-                                        <p>Comentar:</p>
-                                        <div class="comentarCampos">
-                                            <input type="text" class="inputComentarTexto"
-                                                placeholder="Escreva seu comentário...">
-                                            <label for="foto" class="comentarImagem">Escolher imagem</label>
-                                            <input type="file" id="foto" class="inputComentarImagem" hidden>
+                <!-- <div id="debateDados${idDebate[o - 1]}">
+                    <div class="debate" id="${idDebate[o - 1]}">
+                        <button onclick="trazerConteudoDebate()">
+                            <p>Debate</p>
+                        </button>
+                    </div>
+                    <div class="sub_titulo" id="">
+                        <div class="texto-imagem">
+                            <div class="texto">
+                                <h2><button onclick="trazerConteudoDebate()">Titulo Debate</button></h2>
+                                <div class="sub_conteudo" id="${debateEscolhido}">
+                                    <div class="comentario">
+                                        <div class="usuarioComentario" id="usuarioComentario">
+                                            <p>ViniciusxL</p>
+                                            <img src="assets/icons/Icone-Arrancara-SemFundo.png" alt="">
                                         </div>
-                                        <button>Enviar Comentário</button>
+                                        <div class="comentarioTexto">
+                                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos, cupiditate
+                                                dolore
+                                                corrupti
+                                                perferendis provident suscipit consequuntur. Laudantium ut perspiciatis,
+                                                veniam
+                                                doloremque vitae, atque deleniti repudiandae illo vel, repellat optio
+                                                obcaecati?
+                                            </p>
+                                        </div>
+                                        <div class="imagens"><img
+                                                src="assets/imgs/Quincy - Ataques De Flechas Espirituais.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="comentar">
+                                        <div class="comentar">
+                                            <p>Comentar:</p>
+                                            <div class="comentarCampos">
+                                                <input type="text" class="inputComentarTexto"
+                                                    placeholder="Escreva seu comentário...">
+                                                <label for="foto" class="comentarImagem">Escolher imagem</label>
+                                                <input type="file" id="foto" class="inputComentarImagem" hidden>
+                                            </div>
+                                            <button>Enviar Comentário</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -161,8 +163,17 @@
 
     var todosDadosDebates = []
     var idDebate = []
+    var titulo = []
     var DadosEspecificosDebates = []
     var debateEscolhido
+    var tituloDebateEscolhido = ''
+
+    var pkComentario = []
+    var pkUsuario = []
+    var nomeComentario = []
+    var imagemPerfilComentario = []
+    var comentario = []
+    var imagemComentario = []
 
     function mudarPagina() {
         var select = select_informacao.value
@@ -171,78 +182,110 @@
         }
     }
 
-    function trazerTodosDebates() {
-        fetch(`/chatRoute/buscarDadosDebates`, {
-            method: "GET"
-        })
-            .then(response => response.json())
-            .then(dadosDebates => {
-                todosDadosDebates = dadosDebates
-                todosDadosDebates.forEach(resposta => {
-                    idDebate.push(resposta.idDebate)
-                });
+    function cadastrarDebate() {
+        var tituloDebate = input_criarDebate.value
+        if (tituloDebate == '') {
+            alert(`Não pode cadastrar um debate vazio`)
+        } else {
+            fetch(`/chatRoute/cadastrarDebate`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    pkUsuarioServer: idUsuario,
+                    tituloServer: tituloDebate
+                })
             })
-        for (var i = 1; i <= idDebate.length; i++) {
-            geral.innerHTML += `
-                <div class="sub_titulo" id="${idDebate[i - 1]}">
-                    <div class="texto-imagem">
-                        <div class="texto">
-                            <h2><button onclick="trazerConteudoDebate(), debateEscolhido=${idDebate - 1}">Titulo Debate</button></h2>`
         }
     }
 
-    function trazerConteudoDebate() {
-        fetch(`/chatRoute/trazerConteudoDebate?pkDebate=${debateEscolhido}`, {
+    function trazerTodosDebates() {
+        fetch(`/chatRoute/trazerTodosDebates`, {
             method: "GET"
         })
             .then(response => response.json())
             .then(dadosDebates => {
-                DadosEspecificosDebates = dadosDebates
-                DadosEspecificosDebates.forEach(resposta => {
-                    pkComentario.push(resposta.pkComentario)
-                    pkUsuario.push(resposta.pkUsuario)
-                    nomeComentario.push(resposta.nome)
-                    imagemPerfilComentario.push(resposta.imagemPerfil)
-                    comentario.push(resposta.comentario)
-                    imagemComentario.push(resposta.imagem)
-                });
+                idDebate = []
+                titulo = []
+                todosDadosDebates = dadosDebates
+                for (var i = 1; i <= todosDadosDebates.length; i++) {
+                    idDebate.push(todosDadosDebates[i - 1].idDebate)
+                    titulo.push(todosDadosDebates[i - 1].titulo)
+                }
+                geral.innerHTML = '';
+                for (var o = 1; o <= idDebate.length; o++) {
+                    geral.innerHTML += `
+                <div id="debate_${idDebate[o - 1]}">
+                    <div class="debate">
+                        <button onclick="trazerConteudoDebate('debate_${idDebate[o - 1]}', ${o - 1})">
+                            <p>${titulo[o - 1]}</p>
+                        </button>
+                    </div>
+                </div>`
+                }
             })
-        for (var i = 1; i <= pkComentario; i++) {
-            geral.innerHTML += `
-                <div class="sub_conteudo" id="${pkComentario[i - 1]}">
-                    <div class="comentario">
-                        <div class="usuarioComentario" id="${pkUsuario[i - 1]}">
-                            <p>${nomeComentario[i - 1]}</p>
-                            <img src="assets/imagemUsuario/${imagemPerfilComentario[i - 1]}" alt="">
-                        </div>
-                        <div class="comentarioTexto">
-                            <p>${comentario[i - 1]}
-                            </p>
-                        </div>
-                        <div class="imagens"><img src="assets/imagensComentarios/${imagemComentario[i - 1]}"
-                                alt="">
-                        </div>
-                    </div>`
+            .catch(error => {
+                console.log("Erro ao carregar debates: " + error);
+            });
+    }
+
+    function trazerConteudoDebate(idDiv, indiceDebate) {
+        idDebate
+
+        document.getElementById(idDiv).innerHTML = `
+        <div class="sub_titulo">
+            <div class="texto-imagem">
+                <div class="texto">
+                    <h2>${titulo[indiceDebate]}</h2>`
+
+        function buscarDadosDebate() {
+            fetch(`/chatRoute/buscarDadosDebate?idDebate=${idDiv}`, {
+                method: "GET"
+            })
+                .then(response => response.json())
+                .then(dadosDebate => {
+                    DadosEspecificosDebates = dadosDebate
+                    DadosEspecificosDebates.forEach(resposta => {
+                        comentarioId.push(resposta.idComentario),
+                            comentarioTexto.push(resposta.comentario),
+                            comentarioImagem.push(resposta.imagem)
+                    });
+                })
         }
-        geral.innerHTML += `
-            <div class="comentar">
-                    <div class="comentar">
-                        <p>Comentar:</p>
-                        <div class="comentarCampos">
-                            <input type="text" class="inputComentarTexto id="textoComentario"
-                                placeholder="Escreva seu comentário...">
-                            <label for="foto" class="comentarImagem">Escolher imagem</label>
-                            <input type="file" id="foto" class="inputComentarImagem" hidden>
+
+
+
+        document.getElementById(idDiv).innerHTML += `
+                    <div class="sub_conteudo">
+                        <div class="comentario">
+                            <div class="usuarioComentario">
+                                <p>ViniciusxL</p>
+                                <img src="assets/icons/Icone-Arrancara-SemFundo.png" alt="">
+                            </div>
+                            <div class="comentarioTexto">
+                                <p>Exemplo de comentário...</p>
+                            </div>
+                            <div class="imagens">
+                                <img src="assets/imgs/Quincy - Ataques De Flechas Espirituais.png" alt="">
+                            </div>
                         </div>
-                        <button onclick="enviarComentario()">Enviar Comentário</button>
+                        <div class="comentar">
+                            <p>Comentar:</p>
+                            <div class="comentarCampos">
+                                <input type="text" class="inputComentarTexto" placeholder="Escreva seu comentário...">
+                                <label for="foto_${idDebate[indiceDebate]}" class="comentarImagem">Escolher imagem</label>
+                                <input type="file" id="foto_${idDebate[indiceDebate]}" class="inputComentarImagem" hidden>
+                            </div>
+                            <button>Enviar Comentário</button>
+                        </div>
                     </div>
                 </div>
-            </div>`
+            </div>
+        </div>`
     }
 
     function enviarComentario() {
         if (textoComentario.value == "" || foto.value == "") {
-
+            alert(`Não é permitido comentario vazio`)
         } else {
 
             fetch(`/chatRoute/enviarComentarioTextoImagem`, {

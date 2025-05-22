@@ -2,32 +2,30 @@ var database = require("../database/config")
 
 function trazerTodosDebates() {
     var instrucaoSql = `
-        SELECT * FROM debate;`;
+        SELECT * FROM debates;`;
     console.log("Executando a instrução SQL: Consulta de debates \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function trazerConteudoDebate(pkDebate) {
+function trazerConteudoDebate(idDebate) {
     var instrucaoSql = `
-            SELECT 
-        debates.idDebate,
-        comentario.idComentario,
-        comentario.pkUsuario,
+    SELECT 
         usuario.nome,
         usuario.imagemPerfil,
-        debates.titulo,
         comentario.comentario,
-        comentario.imagem
+        comentario.imagem,
+        comentario.idComentario,
+        debates.idDebate
     FROM
-        debates
+        usuario
             JOIN
-        comentarioDebate ON comentarioDebate.pkComentario = debates.idDebate
+        comentario ON usuario.idUsuario = comentario.pkUsuario
             JOIN
-        comentario ON comentario.idComentario = comentarioDebate.pkComentario
+        comentarioDebate ON comentarioDebate.pkComentario = comentario.idComentario
             JOIN
-        usuario ON usuario.idUsuario = comentario.pkUsuario
+        debates ON comentarioDebate.pkDebate = debates.idDebate
     WHERE
-        comentarioDebate.pkDebate = ${pkDebate};`;
+        debates.idDebate = ${idDebate};`;
     console.log("Executando a instrução SQL: Consulta de dados dos debates \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
@@ -39,8 +37,16 @@ function enviarComentarioTextoImagem(pkUsuario, pontos) {
     return database.executar(instrucaoSql);
 }
 
+function cadastrarDebate(pkUsuario, titulo) {
+    var instrucaoSql = `
+        INSERT INTO debates (pkUsuario, titulo) VALUES ('${pkUsuario}', '${titulo}');`;
+    console.log("Executando a instrução SQL: Inserção de debate \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     trazerTodosDebates,
     trazerConteudoDebate,
-    enviarComentarioTextoImagem
+    enviarComentarioTextoImagem,
+    cadastrarDebate
 }

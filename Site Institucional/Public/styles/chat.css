@@ -171,6 +171,17 @@ body {
   margin-top: 40px;
 }
 
+.sub_titulo h2 {
+  max-width: max-content;
+  background-color: #3b3b3b;
+  color: white;
+  font-size: 20px;
+  border-radius: 10px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
 .sub_titulo h2 button {
   background-color: #3b3b3b;
   color: white;
