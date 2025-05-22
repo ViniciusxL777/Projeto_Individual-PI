@@ -21,7 +21,7 @@
             <select id="select_informacao" onchange="mudarPagina()">
                 <option value="">Informações</option>
                 <option value="sociedade_das_almas.html">Sociedade Das Almas</option>
-                <option value="hoeco_mundo.html">Hoeco Mundo</option>
+                <option value="hueco_mundo.html">Hueco Mundo</option>
                 <option value="sociedade_quincy.html">Sociedade Quincy</option>
                 <option value="shinigami.html">Shinigami</option>
                 <option value="hollow_arrancars.html">Hollow/Arrancars</option>
@@ -30,8 +30,9 @@
             <li><a href="quiz.html">Quiz</a></li>
             <li><a href="sobreNos.html">Sobre nós</a></li>
         </ul>
-        <ul class="login"><img style="width: 100px; height: 100px;" src="assets/icons/Icone-Shinigami-SemFundo.png"
-                alt="icone polus">
+        <ul class="login">
+            <div id="imagemPerfil"><img style="width: 100px; height: 100px;"
+                    src="assets/icons/Icone-Shinigami-SemFundo.png" alt=""></div>
             <li>
                 <a href="perfil.html">
                     <div id="nome"></div>
@@ -133,7 +134,7 @@
                 <div class="link2">
                     <a href="sociedade_das_almas.html">Sociedade das Almas<img class="img1"
                             src="assets/icons/Icone-Link.png" alt=""></a>
-                    <a href="hoeco_mundo.html">Hoeco Mundo<img class="img1" src="assets/icons/Icone-Link.png"
+                    <a href="hueco_mundo.html">Hueco Mundo<img class="img1" src="assets/icons/Icone-Link.png"
                             alt=""></a>
                     <a href="sociedade_quincy.html">Sociedade Quincy<img class="img1" src="assets/icons/Icone-Link.png"
                             alt=""></a>
@@ -161,19 +162,16 @@
     nome.innerHTML = sessionStorage.NOME_USUARIO
     imagemPerfil.innerHTML = `<img style="width: 100px; height: 100px;" src="assets/fotosUsuario/${sessionStorage.IMAGEM_PERFIL}" alt="">`
 
-    var todosDadosDebates = []
+
     var idDebate = []
     var titulo = []
+    var todosDadosDebates = []
     var DadosEspecificosDebates = []
-    var debateEscolhido
-    var tituloDebateEscolhido = ''
-
-    var pkComentario = []
-    var pkUsuario = []
+    var comentarioId = []
+    var comentarioTexto = []
+    var comentarioImagem = []
     var nomeComentario = []
-    var imagemPerfilComentario = []
-    var comentario = []
-    var imagemComentario = []
+    var perfilImagem = []
 
     function mudarPagina() {
         var select = select_informacao.value
@@ -195,6 +193,7 @@
                     tituloServer: tituloDebate
                 })
             })
+            window.location = "chat.html"
         }
     }
 
@@ -216,7 +215,7 @@
                     geral.innerHTML += `
                 <div id="debate_${idDebate[o - 1]}">
                     <div class="debate">
-                        <button onclick="trazerConteudoDebate('debate_${idDebate[o - 1]}', ${o - 1})">
+                        <button onclick="trazerConteudoDebate('debate_${idDebate[o - 1]}', ${o - 1}, ${idDebate[o - 1]})">
                             <p>${titulo[o - 1]}</p>
                         </button>
                     </div>
@@ -228,59 +227,63 @@
             });
     }
 
-    function trazerConteudoDebate(idDiv, indiceDebate) {
-        idDebate
-
+    function trazerConteudoDebate(idDiv, indiceDebate, debateConteudo) {
+        var verificar = ''
         document.getElementById(idDiv).innerHTML = `
         <div class="sub_titulo">
             <div class="texto-imagem">
                 <div class="texto">
-                    <h2>${titulo[indiceDebate]}</h2>`
-
-        function buscarDadosDebate() {
-            fetch(`/chatRoute/buscarDadosDebate?idDebate=${idDiv}`, {
-                method: "GET"
-            })
-                .then(response => response.json())
-                .then(dadosDebate => {
-                    DadosEspecificosDebates = dadosDebate
-                    DadosEspecificosDebates.forEach(resposta => {
-                        comentarioId.push(resposta.idComentario),
-                            comentarioTexto.push(resposta.comentario),
-                            comentarioImagem.push(resposta.imagem)
-                    });
-                })
-        }
-
-
-
-        document.getElementById(idDiv).innerHTML += `
-                    <div class="sub_conteudo">
-                        <div class="comentario">
-                            <div class="usuarioComentario">
-                                <p>ViniciusxL</p>
-                                <img src="assets/icons/Icone-Arrancara-SemFundo.png" alt="">
-                            </div>
-                            <div class="comentarioTexto">
-                                <p>Exemplo de comentário...</p>
-                            </div>
-                            <div class="imagens">
-                                <img src="assets/imgs/Quincy - Ataques De Flechas Espirituais.png" alt="">
-                            </div>
-                        </div>
-                        <div class="comentar">
-                            <p>Comentar:</p>
-                            <div class="comentarCampos">
-                                <input type="text" class="inputComentarTexto" placeholder="Escreva seu comentário...">
-                                <label for="foto_${idDebate[indiceDebate]}" class="comentarImagem">Escolher imagem</label>
-                                <input type="file" id="foto_${idDebate[indiceDebate]}" class="inputComentarImagem" hidden>
-                            </div>
-                            <button>Enviar Comentário</button>
-                        </div>
+                    <h2>${titulo[indiceDebate]}</h2>
+                    <div class="sub_conteudo" id="comentario_${idDiv}">
                     </div>
                 </div>
             </div>
         </div>`
+
+        fetch(`/chatRoute/buscarDadosDebate?idDebate=${debateConteudo}`, {
+            method: "GET"
+        })
+            .then(response => response.json())
+            .then(dadosDebate => {
+                if (0 < dadosDebate.length) {
+                    DadosEspecificosDebates = dadosDebate
+                    DadosEspecificosDebates.forEach(resposta => {
+                        comentarioId.push(resposta.idComentario),
+                            comentarioTexto.push(resposta.comentario),
+                            comentarioImagem.push(resposta.imagem),
+                            nomeComentario.push(resposta.nome),
+                            perfilImagem.push(resposta.imagemPerfil)
+                    });
+                    for (var i = 1; i <= comentarioId.length; i++) {
+                        document.getElementById(`comentario_${idDiv}`).innerHTML += `
+                        <div class="comentario">
+                            <div class="usuarioComentario">
+                                <p>${nomeComentario[i - 1]}</p>
+                                <img src="assets/fotosUsuario/${perfilImagem[i - 1]}" alt="">
+                            </div>
+                            <div class="comentarioTexto">
+                                <p>${comentarioTexto[i - 1]}</p>
+                            </div>
+                            <div class="imagens">
+                                <img src="assets/imagemComentario/${comentarioImagem[i - 1]}" alt="">
+                            </div>
+                        </div>`
+                    }
+                }
+                document.getElementById(`comentario_${idDiv}`).innerHTML += `
+                <div class="comentar">
+                    <p>Comentar:</p>
+                    <div class="comentarCampos">
+                        <input type="text" class="inputComentarTexto" placeholder="Escreva seu comentário...">
+                        <label for="foto" class="comentarImagem">Escolher imagem</label>
+                        <input type="file" id="foto" class="inputComentarImagem" hidden>
+                    </div>
+                    <button>Enviar Comentário</button>
+                </div>`
+
+            }).catch(err => {
+                console.log(err)
+            })
     }
 
     function enviarComentario() {

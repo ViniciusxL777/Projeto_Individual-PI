@@ -18,10 +18,10 @@ function trazerTodosDebates(req, res) {
         )
 }
 
-function trazerConteudoDebate(req, res) {
+function buscarDadosDebate(req, res) {
     var idDebate = req.query.idDebate
 
-    chatModel.trazerConteudoDebate(idDebate)
+    chatModel.buscarDadosDebate(idDebate)
 
         .then(
             function (resultado) {
@@ -84,7 +84,7 @@ function cadastrarDebate(req, res) {
 
 module.exports = {
     trazerTodosDebates,
-    trazerConteudoDebate,
+    buscarDadosDebate,
     enviarComentarioTextoImagem,
     cadastrarDebate
 };

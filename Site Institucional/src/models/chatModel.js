@@ -7,7 +7,7 @@ function trazerTodosDebates() {
     return database.executar(instrucaoSql);
 }
 
-function trazerConteudoDebate(idDebate) {
+function buscarDadosDebate(idDebate) {
     var instrucaoSql = `
     SELECT 
         usuario.nome,
@@ -46,7 +46,7 @@ function cadastrarDebate(pkUsuario, titulo) {
 
 module.exports = {
     trazerTodosDebates,
-    trazerConteudoDebate,
+    buscarDadosDebate,
     enviarComentarioTextoImagem,
     cadastrarDebate
 }

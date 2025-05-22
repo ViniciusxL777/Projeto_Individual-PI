@@ -7,8 +7,8 @@ router.get("/trazerTodosDebates", function (req, res) {
     chatController.trazerTodosDebates(req, res)
 })
 
-router.get("/trazerConteudoDebate", function (req, res) {
-    chatController.trazerConteudoDebate(req, res)
+router.get("/buscarDadosDebate", function (req, res) {
+    chatController.buscarDadosDebate(req, res)
 })
 
 router.get("/enviarComentarioTextoImagem", function (req, res) {
