@@ -162,7 +162,6 @@
     nome.innerHTML = sessionStorage.NOME_USUARIO
     imagemPerfil.innerHTML = `<img style="width: 100px; height: 100px;" src="assets/fotosUsuario/${sessionStorage.IMAGEM_PERFIL}" alt="">`
 
-
     var idDebate = []
     var titulo = []
     var todosDadosDebates = []
@@ -175,6 +174,7 @@
     var debateAtualIdDiv = ''
     var debateAtualIndice = 0
     var debateAtualId = 0
+    var debateSelecionado
 
     function mudarPagina() {
         var select = select_informacao.value
@@ -235,96 +235,86 @@
         debateAtualIndice = indiceDebate
         debateAtualId = debateConteudo
 
-        var verificar = ''
         document.getElementById(idDiv).innerHTML = `
-            <div class="sub_titulo">
-                <div class="texto-imagem">
-                    <div class="texto">
-                        <h2>${titulo[indiceDebate]}</h2>
-                        <div class="sub_conteudo" id="comentario_${idDiv}">
-                        </div>
+        <div class="sub_titulo">
+            <div class="texto-imagem">
+                <div class="texto">
+                    <h2>${titulo[indiceDebate]}</h2>
+                    <div class="sub_conteudo" id="comentario_${idDiv}">
                     </div>
                 </div>
-            </div>`
-        var comentarioDebate = debateConteudo
-        fetch(`/chatRoute/buscarDadosDebate?idDebate=${debateConteudo}`, {
-            method: "GET"
-        })
+            </div>
+        </div>`
+
+        fetch(`/chatRoute/buscarDadosDebate?idDebate=${debateConteudo}`, { method: "GET" })
             .then(response => response.json())
             .then(dadosDebate => {
-                if (0 < dadosDebate.length) {
-                    DadosEspecificosDebates = dadosDebate
-                    DadosEspecificosDebates.forEach(resposta => {
-                        comentarioId.push(resposta.idComentario),
-                            comentarioTexto.push(resposta.comentario),
-                            comentarioImagem.push(resposta.imagem),
-                            nomeComentario.push(resposta.nome),
-                            perfilImagem.push(resposta.imagemPerfil)
-                    });
-                    for (var i = 1; i <= comentarioId.length; i++) {
+                if (dadosDebate.length > 0) {
+                    dadosDebate.forEach(resposta => {
                         document.getElementById(`comentario_${idDiv}`).innerHTML += `
-                        <div class="comentario">
-                            <div class="usuarioComentario">
-                                <p>${nomeComentario[i - 1]}</p>
-                                <img src="assets/fotosUsuario/${perfilImagem[i - 1]}" alt="">
-                            </div>
-                            <div class="comentarioTexto">
-                                <p>${comentarioTexto[i - 1]}</p>
-                            </div>
-                            <div class="imagens">
-                                <img src="assets/imagemComentario/${comentarioImagem[i - 1]}" alt="">
-                            </div>
-                        </div>`
-                    }
+                    <div class="comentario">
+                        <div class="usuarioComentario">
+                            <p>${resposta.nome}</p>
+                            <img src="assets/fotosUsuario/${resposta.imagemPerfil}" alt="">
+                        </div>
+                        <div class="comentarioTexto">
+                            <p>${resposta.comentario}</p>
+                        </div>
+                        <div class="imagens">
+                            <img src="assets/imagemComentario/${resposta.imagem}" alt="">
+                        </div>
+                    </div>`
+                    })
                 }
-                document.getElementById(`comentario_${idDiv}`).innerHTML += `
-                <div class="comentar">
-                    <p>Comentar:</p>
-                    <div class="comentarCampos">
-                        <textarea type="text" class="inputComentarTexto" id="input_comentarioTexto" placeholder="Escreva seu comentário..."></textarea>   
-                        <label for="foto" class="comentarImagem">Escolher imagem</label>
-                        <input type="file" id="foto" class="inputComentarImagem" hidden>
-                    </div>
-                    <button onclick="enviarComentario(${comentarioDebate})">Enviar Comentário</button>
-                </div>`
 
-            }).catch(err => {
-                console.log(err)
+                document.getElementById(`comentario_${idDiv}`).innerHTML += `
+            <div class="comentar">
+                <p>Comentar:</p>
+                <div class="comentarCampos">
+                    <textarea class="inputComentarTexto" id="input_comentarioTexto_${idDiv}" placeholder="Escreva seu comentário..."></textarea>
+                    <label for="foto_${idDiv}" class="comentarImagem">Escolher imagem</label>
+                    <input type="file" id="foto_${idDiv}" class="inputComentarImagem" hidden>
+                </div>
+                <button onclick="enviarComentario('${idDiv}', ${debateConteudo})">Enviar Comentário</button>
+            </div>`;
             })
+            .catch(err => {
+                console.log(err)
+            });
     }
 
-    function enviarComentario(debateSelecionado) {
-        if (input_comentarioTexto.value == "" && foto.value == "") {
-            alert(`Não é permitido comentário vazio`)
+    function enviarComentario(idDiv, debateConteudo) {
+        const inputComentario = document.getElementById(`input_comentarioTexto_${idDiv}`)
+        const inputFoto = document.getElementById(`foto_${idDiv}`)
+
+        if (inputComentario.value == "" && inputFoto.files.length == 0) {
+            alert(`Não é permitido comentário vazio`);
             return;
         }
 
-        const formData = new FormData()
-        formData.append('foto', foto.files[0])
-        formData.append('comentario', input_comentarioTexto.value)
-        formData.append('pkUsuario', idUsuario)
-        formData.append('pkDebate', debateSelecionado)
+        const formData = new FormData();
+        formData.append('foto', inputFoto.files[0]);
+        formData.append('comentario', inputComentario.value);
+        formData.append('pkUsuario', idUsuario);
+        formData.append('pkDebate', debateConteudo);
 
         fetch("/chatRoute/enviarComentarioTextoImagem", {
             method: "POST",
             body: formData
-        }).then(res => {
-            if (res.ok) {
-                alert(`Comentário enviado com sucesso!`)
-                comentarioId = []
-                comentarioTexto = []
-                comentarioImagem = []
-                nomeComentario = []
-                perfilImagem = []
-                trazerConteudoDebate(debateAtualIdDiv, debateAtualIndice, debateAtualId)
-            } else {
-                console.error('Erro na resposta do servidor:', res.status)
-                alert('Ocorreu um erro ao enviar o comentário. Status: ' + res.status)
-            }
-        }).catch(err => {
-            console.error('Erro na requisição:', err)
-            alert('Erro ao enviar comentário: ' + err.message)
         })
+            .then(res => {
+                if (res.ok) {
+                    alert(`Comentário enviado com sucesso!`);
+                    trazerConteudoDebate(idDiv, debateAtualIndice, debateConteudo);
+                } else {
+                    console.error('Erro na resposta do servidor:', res.status);
+                    alert('Ocorreu um erro ao enviar o comentário. Status: ' + res.status);
+                }
+            })
+            .catch(err => {
+                console.error('Erro na requisição:', err);
+                alert('Erro ao enviar comentário: ' + err.message);
+            });
     }
 
 </script>
