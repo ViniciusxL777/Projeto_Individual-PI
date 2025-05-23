@@ -24,7 +24,7 @@ function buscarDadosDebate(idDebate) {
             JOIN
         debates ON comentario.pkDebate = debates.idDebate
     WHERE 
-        debates.idDebate = ${idDebate};`
+        debates.idDebate = ${idDebate} ORDER BY comentario.idComentario ASC;`
     console.log("Executando a instrução SQL: Consulta de dados dos debates \n" + instrucaoSql)
     return database.executar(instrucaoSql);
 }
