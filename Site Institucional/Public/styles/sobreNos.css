@@ -33,7 +33,7 @@ body {
 }
 
 .navbar ul {
-  justify-content: flex-end;
+  justify-content: center;
   list-style: none;
   display: flex;
   flex-direction: row;
@@ -59,7 +59,7 @@ body {
   font-weight: bold;
   background: transparent;
   border: none;
-  width: 24%;
+  width: 21%;
 }
 
 .navbar ul select option {
@@ -68,7 +68,7 @@ body {
 
 .navbar .login {
   gap: 0px;
-} 
+}
 
 .navbar .login img {
   background: #000000;
@@ -194,7 +194,7 @@ footer {
   flex-wrap: wrap;
   justify-content: space-between;
   margin-top: 2%;
-  }
+}
 
 .link_footer {
   width: 23%;
