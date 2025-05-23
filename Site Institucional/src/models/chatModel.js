@@ -15,32 +15,31 @@ function buscarDadosDebate(idDebate) {
         comentario.comentario,
         comentario.imagem,
         comentario.idComentario,
-        debates.idDebate
+        debates.idDebate,
+        debates.titulo
     FROM
-        usuario
+        comentario
             JOIN
-        comentario ON usuario.idUsuario = comentario.pkUsuario
+        usuario ON comentario.pkUsuario = usuario.idUsuario
             JOIN
-        comentarioDebate ON comentarioDebate.pkComentario = comentario.idComentario
-            JOIN
-        debates ON comentarioDebate.pkDebate = debates.idDebate
-    WHERE
-        debates.idDebate = ${idDebate};`;
-    console.log("Executando a instrução SQL: Consulta de dados dos debates \n" + instrucaoSql);
+        debates ON comentario.pkDebate = debates.idDebate
+    WHERE 
+        debates.idDebate = ${idDebate};`
+    console.log("Executando a instrução SQL: Consulta de dados dos debates \n" + instrucaoSql)
     return database.executar(instrucaoSql);
 }
 
-function enviarComentarioTextoImagem(pkUsuario, pontos) {
+function enviarComentarioTextoImagem(pkUsuario, pkDebate, imagem, comentario) {
     var instrucaoSql = `
-        INSERT INTO TABELA (CAMPO) VALUES ('', '');`;
+        INSERT INTO comentario (pkUsuario, pkDebate, comentario, imagem) VALUES ('${pkUsuario}','${pkDebate}','${comentario}','${imagem}');`;
     console.log("Executando a instrução SQL: Inserção do comentarios \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 function cadastrarDebate(pkUsuario, titulo) {
     var instrucaoSql = `
-        INSERT INTO debates (pkUsuario, titulo) VALUES ('${pkUsuario}', '${titulo}');`;
-    console.log("Executando a instrução SQL: Inserção de debate \n" + instrucaoSql);
+        INSERT INTO debates (pkUsuario, titulo) VALUES ('${pkUsuario}', '${titulo}');`
+    console.log("Executando a instrução SQL: Inserção de debate \n" + instrucaoSql)
     return database.executar(instrucaoSql);
 }
 

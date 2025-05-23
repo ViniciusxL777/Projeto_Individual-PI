@@ -39,26 +39,17 @@ function buscarDadosDebate(req, res) {
 }
 
 function enviarComentarioTextoImagem(req, res) {
-    var pkUsuario = req.body.usuarioServer
-    var comentario = req.body.comentarioTextoServe
-    var pkDebate = req.body.pkDebateServer
-    var pkUsuario = req.body.usuarioServer
+    var pkUsuario = req.body.pkUsuario
+    var pkDebate = req.body.pkDebate
+    var comentario = req.body.comentario
+    var imagem = req.file ? req.file.filename : null
 
-    chatModel.enviarComentarioTextoImagem(pkUsuario, comentario, pkDebate)
-
-        .then(
-            function (resultado) {
-                res.json(resultado)
-            }
-        ).catch(
-            function (erro) {
-                console.log(erro)
-                console.log(
-                    "\n Houve um erro ao armazenar sua resposta! Erro: "
-                );
-                res.status(500).json(erro.sqlMessage)
-            }
-        )
+    chatModel.enviarComentarioTextoImagem(pkUsuario, pkDebate, imagem, comentario)
+        .then(resultado => {
+            res.status(201).send("Enviada com sucesso")
+        }).catch(err => {
+            res.status(500).send(err);
+        });
 }
 
 function cadastrarDebate(req, res) {

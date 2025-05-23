@@ -53,20 +53,13 @@ CREATE TABLE debates (
 CREATE TABLE comentario (
     idComentario INT AUTO_INCREMENT NOT NULL,
     pkUsuario INT NOT NULL,
-    PRIMARY KEY (idComentario , pkUsuario),
-    CONSTRAINT pkUsuarioComentario FOREIGN KEY (pkUsuario)
-        REFERENCES usuario (idUsuario),
-    comentario TEXT,
-    imagem TEXT
-);
-
-CREATE TABLE comentarioDebate (
-    pkComentario INT NOT NULL,
     pkDebate INT NOT NULL,
-    PRIMARY KEY (pkComentario , pkDebate),
-    CONSTRAINT pkComentarioDebate FOREIGN KEY (pkComentario)
-        REFERENCES comentario (idComentario),
-    CONSTRAINT pkDebateComentario FOREIGN KEY (pkDebate)
+    comentario TEXT,
+    imagem TEXT,
+    PRIMARY KEY (idComentario),
+    CONSTRAINT fkUsuarioComentario FOREIGN KEY (pkUsuario)
+        REFERENCES usuario (idUsuario),
+    CONSTRAINT fkDebateComentario FOREIGN KEY (pkDebate)
         REFERENCES debates (idDebate)
 );
 
@@ -115,29 +108,9 @@ SELECT * FROM usuario WHERE idUsuario = 2;
 SELECT * FROM questao;
 SELECT * FROM resposta WHERE pkUsuario = 2;
 SELECT * FROM quiz WHERE pkUsuario = 1;
-
-SELECT 
-    debates.idDebate,
-    comentario.idComentario,
-    comentario.pkUsuario,
-    usuario.nome,
-    usuario.imagemPerfil,
-    debates.titulo,
-    comentario.comentario,
-    comentario.imagem
-FROM
-    debates
-        JOIN
-    comentarioDebate ON comentarioDebate.pkComentario = debates.idDebate
-        JOIN
-    comentario ON comentario.idComentario = comentarioDebate.pkComentario
-        JOIN
-    usuario ON usuario.idUsuario = comentario.pkUsuario
-WHERE
-    debates.idDebate = 0;
-    
-SELECT * FROM comentarioDebate;
+SELECT * FROM comentario;
 SELECT * FROM debates;
+SELECT * FROM comentario;
 
 SELECT 
     usuario.nome,
@@ -145,14 +118,13 @@ SELECT
     comentario.comentario,
     comentario.imagem,
     comentario.idComentario,
-    debates.idDebate
+    debates.idDebate,
+    debates.titulo
 FROM
-    usuario
+    comentario
         JOIN
-    comentario ON usuario.idUsuario = comentario.pkUsuario
+    usuario ON comentario.pkUsuario = usuario.idUsuario
         JOIN
-    comentarioDebate ON comentarioDebate.pkComentario = comentario.idComentario
-        JOIN
-    debates ON comentarioDebate.pkDebate = debates.idDebate
+    debates ON comentario.pkDebate = debates.idDebate
 WHERE
     debates.idDebate = 1;

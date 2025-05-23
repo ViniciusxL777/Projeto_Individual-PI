@@ -172,6 +172,9 @@
     var comentarioImagem = []
     var nomeComentario = []
     var perfilImagem = []
+    var debateAtualIdDiv = ''
+    var debateAtualIndice = 0
+    var debateAtualId = 0
 
     function mudarPagina() {
         var select = select_informacao.value
@@ -210,7 +213,7 @@
                     idDebate.push(todosDadosDebates[i - 1].idDebate)
                     titulo.push(todosDadosDebates[i - 1].titulo)
                 }
-                geral.innerHTML = '';
+                geral.innerHTML = ''
                 for (var o = 1; o <= idDebate.length; o++) {
                     geral.innerHTML += `
                 <div id="debate_${idDebate[o - 1]}">
@@ -223,23 +226,27 @@
                 }
             })
             .catch(error => {
-                console.log("Erro ao carregar debates: " + error);
+                console.log("Erro ao carregar debates: " + error)
             });
     }
 
     function trazerConteudoDebate(idDiv, indiceDebate, debateConteudo) {
+        debateAtualIdDiv = idDiv
+        debateAtualIndice = indiceDebate
+        debateAtualId = debateConteudo
+
         var verificar = ''
         document.getElementById(idDiv).innerHTML = `
-        <div class="sub_titulo">
-            <div class="texto-imagem">
-                <div class="texto">
-                    <h2>${titulo[indiceDebate]}</h2>
-                    <div class="sub_conteudo" id="comentario_${idDiv}">
+            <div class="sub_titulo">
+                <div class="texto-imagem">
+                    <div class="texto">
+                        <h2>${titulo[indiceDebate]}</h2>
+                        <div class="sub_conteudo" id="comentario_${idDiv}">
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>`
-
+            </div>`
+        var comentarioDebate = debateConteudo
         fetch(`/chatRoute/buscarDadosDebate?idDebate=${debateConteudo}`, {
             method: "GET"
         })
@@ -274,11 +281,11 @@
                 <div class="comentar">
                     <p>Comentar:</p>
                     <div class="comentarCampos">
-                        <input type="text" class="inputComentarTexto" placeholder="Escreva seu comentário...">
+                        <textarea type="text" class="inputComentarTexto" id="input_comentarioTexto" placeholder="Escreva seu comentário..."></textarea>   
                         <label for="foto" class="comentarImagem">Escolher imagem</label>
                         <input type="file" id="foto" class="inputComentarImagem" hidden>
                     </div>
-                    <button>Enviar Comentário</button>
+                    <button onclick="enviarComentario(${comentarioDebate})">Enviar Comentário</button>
                 </div>`
 
             }).catch(err => {
@@ -286,35 +293,38 @@
             })
     }
 
-    function enviarComentario() {
-        if (textoComentario.value == "" || foto.value == "") {
-            alert(`Não é permitido comentario vazio`)
-        } else {
-
-            fetch(`/chatRoute/enviarComentarioTextoImagem`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    pkUsuarioServer: idUsuario,
-                    comentarioTextoServe: textoComentario.value,
-                    pkDebateServer: debateEscolhido
-                })
-            })
-
-            const formData = new FormData()
-            formData.append('foto', foto.files[0])
-            formData.append('idUsuario', idUsuario)
-
-            fetch("/chatRoute/enviarComentarioTextoImagem", {
-                method: "POST",
-                body: formData
-            }).then(res => {
-                console.log(res)
-            }).catch(err => {
-                console.log(erro)
-            })
+    function enviarComentario(debateSelecionado) {
+        if (input_comentarioTexto.value == "" && foto.value == "") {
+            alert(`Não é permitido comentário vazio`)
+            return;
         }
 
+        const formData = new FormData()
+        formData.append('foto', foto.files[0])
+        formData.append('comentario', input_comentarioTexto.value)
+        formData.append('pkUsuario', idUsuario)
+        formData.append('pkDebate', debateSelecionado)
+
+        fetch("/chatRoute/enviarComentarioTextoImagem", {
+            method: "POST",
+            body: formData
+        }).then(res => {
+            if (res.ok) {
+                alert(`Comentário enviado com sucesso!`)
+                comentarioId = []
+                comentarioTexto = []
+                comentarioImagem = []
+                nomeComentario = []
+                perfilImagem = []
+                trazerConteudoDebate(debateAtualIdDiv, debateAtualIndice, debateAtualId)
+            } else {
+                console.error('Erro na resposta do servidor:', res.status)
+                alert('Ocorreu um erro ao enviar o comentário. Status: ' + res.status)
+            }
+        }).catch(err => {
+            console.error('Erro na requisição:', err)
+            alert('Erro ao enviar comentário: ' + err.message)
+        })
     }
 
 </script>
