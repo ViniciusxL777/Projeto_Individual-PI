@@ -175,6 +175,8 @@
     var debateAtualIndice = 0
     var debateAtualId = 0
     var debateSelecionado
+    var fecharDebateAtual
+    var fecharIndiceDebate
 
     function mudarPagina() {
         var select = select_informacao.value
@@ -239,7 +241,7 @@
         <div class="sub_titulo">
             <div class="texto-imagem">
                 <div class="texto">
-                    <h2>${titulo[indiceDebate]}</h2>
+                    <h2 onclick="fecharDebate('${idDiv}', ${indiceDebate})">${titulo[indiceDebate]}</h2>
                     <div class="sub_conteudo" id="comentario_${idDiv}">
                     </div>
                 </div>
@@ -317,4 +319,17 @@
             });
     }
 
+    function fecharDebate(idDiv, indiceDebate) {
+        fecharDebateAtual = idDiv
+        fecharIndiceDebate = indiceDebate
+
+        document.getElementById(`${fecharDebateAtual}`).innerHTML = `
+            <div id="${idDiv}">
+               <div class="debate">
+                    <button onclick="trazerConteudoDebate('${fecharDebateAtual}', ${fecharIndiceDebate}, ${idDebate[fecharIndiceDebate]})">
+                        <p>${titulo[fecharIndiceDebate]}</p>
+                    </button>
+                </div>
+            </div>`
+    }
 </script>
