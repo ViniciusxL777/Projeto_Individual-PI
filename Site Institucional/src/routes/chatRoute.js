@@ -1,5 +1,6 @@
 var express = require("express")
 var router = express.Router()
+
 var upload = require("../config/configUploadChat")
 var chatController = require("../controllers/chatController")
 
