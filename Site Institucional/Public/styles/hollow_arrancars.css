@@ -35,7 +35,7 @@ body {
 }
 
 .navbar ul {
-  justify-content: flex-end;
+  justify-content: center;
   list-style: none;
   display: flex;
   flex-direction: row;
@@ -61,7 +61,7 @@ body {
   font-weight: bold;
   background: transparent;
   border: none;
-  width: 24%;
+  width: 21%;
   color: white;
 }
 
