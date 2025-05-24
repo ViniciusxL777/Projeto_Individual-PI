@@ -15,4 +15,8 @@ router.get("/buscarDadosQuiz", function(req, res) {
     perfilController.buscarDadosQuiz(req, res)
 })
 
+router.get("/trazerDebatesCriados", function(req, res) {
+    perfilController.trazerDebatesCriados(req, res)
+})
+
 module.exports = router

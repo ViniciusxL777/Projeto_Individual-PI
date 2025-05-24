@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body onload="buscarDadosResultados(), buscarDadosQuestoes(), buscarDadosQuiz()">
+<body onload="buscarDadosResultados(), buscarDadosQuestoes(), buscarDadosQuiz(), trazerDebatesCriados()">
 
     <!-- NAVBAR -->
     <nav class="navbar">
@@ -131,7 +131,7 @@
                             <img src="assets/icons/Icone-Debate.png" alt="">
                             <div class="tituloCard">Debates Criados</div>
                         </div>
-                        <div class="conteudoCard" id="debatesCriados">10</div>
+                        <div class="conteudoCard" id="exibirDebates">10</div>
                     </div>
                     <div class="cardDebateComentario">
                         <div class="headerCard">
@@ -175,6 +175,10 @@
     var dadosQuizzes = []
     var totalQuizzes = []
     var todasPontuacaoQuiz = []
+
+    var debatesCriados = []
+    var todosDebatesCriados = []
+    var debates = 0
 
     function mudarPagina() {
         var select = select_informacao.value
@@ -335,6 +339,19 @@
             })
     }
 
+    function trazerDebatesCriados() {
+        fetch(`/perfilRoute/trazerDebatesCriados?pkUsuario=${idUsuario}`, {
+            method: "GET"
+        })
+            .then(response => response.json())
+            .then(dadosDebates => {
+                todosDebatesCriados = []
+                dadosDebates.forEach(resultado => {
+                    todosDebatesCriados.push(resultado.idDebate)
+                });
+                debates = todosDebatesCriados.length
+                exibirDebates.innerHTML = debates
+            });
+    }
+
 </script>
-<!-- https://vinicius123.my.canva.site/ -->
-<!-- https://vinicius123.my.canva.site/p-gina-de-perfil-do-usu-rio-site-sobre-bleach -->

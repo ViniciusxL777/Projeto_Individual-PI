@@ -53,8 +53,26 @@ function buscarDadosQuiz(req, res) {
         )
 }
 
+function trazerDebatesCriados(req, res) {
+    var pkUsuario = req.query.pkUsuario;
+
+    perfilModel.trazerDebatesCriados(pkUsuario)
+        .then(
+            function (resultado) {
+                console.log("Dados do debates retornados:", resultado);
+                res.json(resultado);
+            }
+        ).catch(
+            function (erro) {
+                console.error("Erro ao buscar dados debates:", erro);
+                res.status(500).json(erro.sqlMessage);
+            }
+        )
+}
+
 module.exports = {
     buscarDadosResultados,
     buscarDadosQuestoes,
-    buscarDadosQuiz
+    buscarDadosQuiz,
+    trazerDebatesCriados
 };
