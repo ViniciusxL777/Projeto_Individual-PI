@@ -24,7 +24,14 @@
     function trazerDebatesCriados(pkUsuario) {
         var instrucaoSql = `
             SELECT * FROM debates WHERE pkUsuario = '${pkUsuario}';`;
-        console.log("Executando a instrução SQL: Consulta de quizzes do usuário \n" + instrucaoSql);
+        console.log("Executando a instrução SQL: Consulta de debates do usuário \n" + instrucaoSql);
+        return database.executar(instrucaoSql);
+    }
+
+    function trazerComentario(pkUsuario) {
+        var instrucaoSql = `
+            SELECT * FROM comentario WHERE pkUsuario = '${pkUsuario}';`;
+        console.log("Executando a instrução SQL: Consulta de comentario do usuário \n" + instrucaoSql);
         return database.executar(instrucaoSql);
     }
 
@@ -32,5 +39,6 @@
         buscarDadosResultados,
         buscarDadosQuestoes,
         buscarDadosQuiz,
-        trazerDebatesCriados
+        trazerDebatesCriados,
+        trazerComentario
     }

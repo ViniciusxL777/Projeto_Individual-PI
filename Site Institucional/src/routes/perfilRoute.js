@@ -19,4 +19,8 @@ router.get("/trazerDebatesCriados", function(req, res) {
     perfilController.trazerDebatesCriados(req, res)
 })
 
+router.get("/trazerComentario", function(req, res) {
+    perfilController.trazerComentario(req, res)
+})
+
 module.exports = router

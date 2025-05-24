@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body onload="buscarDadosResultados(), buscarDadosQuestoes(), buscarDadosQuiz(), trazerDebatesCriados()">
+<body onload="buscarDadosResultados(), buscarDadosQuestoes(), buscarDadosQuiz(), trazerDebatesCriados(), trazerComentario()">
 
     <!-- NAVBAR -->
     <nav class="navbar">
@@ -138,7 +138,7 @@
                             <img src="assets/icons/Icone-Comentario.png" alt="">
                             <div class="tituloCard">Comentários Realizados</div>
                         </div>
-                        <div class="conteudoCard" id="comentariosRealizados">50</div>
+                        <div class="conteudoCard" id="exibirComentario">50</div>
                     </div>
                 </div>
             </div>
@@ -351,6 +351,21 @@
                 });
                 debates = todosDebatesCriados.length
                 exibirDebates.innerHTML = debates
+            });
+    }
+
+    function trazerComentario() {
+        fetch(`/perfilRoute/trazerComentario?pkUsuario=${idUsuario}`, {
+            method: "GET"
+        })
+            .then(response => response.json())
+            .then(dadosComentario => {
+                todosComentario = []
+                dadosComentario.forEach(resultado => {
+                    todosComentario.push(resultado.idComentario)
+                });
+                comentario = todosComentario.length
+                exibirComentario.innerHTML = comentario
             });
     }
 

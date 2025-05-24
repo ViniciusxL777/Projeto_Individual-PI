@@ -70,9 +70,27 @@ function trazerDebatesCriados(req, res) {
         )
 }
 
+function trazerComentario(req, res) {
+    var pkUsuario = req.query.pkUsuario;
+
+    perfilModel.trazerComentario(pkUsuario)
+        .then(
+            function (resultado) {
+                console.log("Dados do comentario retornados:", resultado);
+                res.json(resultado);
+            }
+        ).catch(
+            function (erro) {
+                console.error("Erro ao buscar dados caometario:", erro);
+                res.status(500).json(erro.sqlMessage);
+            }
+        )
+}
+
 module.exports = {
     buscarDadosResultados,
     buscarDadosQuestoes,
     buscarDadosQuiz,
-    trazerDebatesCriados
+    trazerDebatesCriados,
+    trazerComentario
 };
