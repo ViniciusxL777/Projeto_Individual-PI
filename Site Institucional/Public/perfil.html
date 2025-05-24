@@ -121,11 +121,28 @@
                     </div>
                 </div>
             </div>
-            <div class="dashboardCharjs">
-                <canvas id="myChart" style="width: 100%; height: auto;"></canvas>
+            <div class="parteDeBaixo">
+                <div class="dashboardCharjs">
+                    <canvas id="myChart" style="width: 100%; height: auto;"></canvas>
+                </div>
+                <div class="debates">
+                    <div class="cardDebateComentario">
+                        <div class="headerCard">
+                            <img src="assets/icons/Icone-Debate.png" alt="">
+                            <div class="tituloCard">Debates Criados</div>
+                        </div>
+                        <div class="conteudoCard" id="debatesCriados">10</div>
+                    </div>
+                    <div class="cardDebateComentario">
+                        <div class="headerCard">
+                            <img src="assets/icons/Icone-Comentario.png" alt="">
+                            <div class="tituloCard">Comentários Realizados</div>
+                        </div>
+                        <div class="conteudoCard" id="comentariosRealizados">50</div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 
 </body>
@@ -183,32 +200,29 @@
                         todasRespostas.push(resposta.resultadoQuestao),
                         todosPontos.push(resposta.pontosQuestao)
                 });
-            })
-
-        setTimeout(() => {
-            for (var i = 1; i <= todasRespostas.length; i++) {
-                if (todasRespostas[i - 1] == 1) {
-                    qtdCorretas += 1
-                } else {
-                    qtdErradas += 1
+                for (var i = 1; i <= todasRespostas.length; i++) {
+                    if (todasRespostas[i - 1] == 1) {
+                        qtdCorretas += 1
+                    } else {
+                        qtdErradas += 1
+                    }
                 }
-            }
 
-            for (var u = 1; u <= todosPontos.length; u++) {
-                pontos += todosPontos[u - 1]
-            }
+                for (var u = 1; u <= todosPontos.length; u++) {
+                    pontos += todosPontos[u - 1]
+                }
 
-            qtdRespondidas = todasRespondidas.length - 1
+                qtdRespondidas = todasRespondidas.length - 1
 
-            qtdRespondidas += 1
+                qtdRespondidas += 1
 
-            realizadas.innerHTML = `${qtdRespondidas}`
-            certa.innerHTML = `${qtdCorretas}`
-            errada.innerHTML = `${qtdErradas}`
-            pontosUsuarioEsquerdo.innerHTML = `<p><span>${pontos}</span></p>
+                realizadas.innerHTML = `${qtdRespondidas}`
+                certa.innerHTML = `${qtdCorretas}`
+                errada.innerHTML = `${qtdErradas}`
+                pontosUsuarioEsquerdo.innerHTML = `<p><span>${pontos}</span></p>
                 <p>Pontos totais</p>`
-            pontuacaoDashboard.innerHTML = `${pontos}`
-        }, 300);
+                pontuacaoDashboard.innerHTML = `${pontos}`
+            })
     }
 
     function buscarDadosQuestoes() {
@@ -221,13 +235,11 @@
                 dadosQuestao.forEach(resposta => {
                     todosPontosQuestao.push(resposta.pontos)
                 });
+                for (var i = 1; i <= todosPontosQuestao.length; i++) {
+                    totalPontos += todosPontosQuestao[i - 1]
+                }
+                pontuacaoTotal.innerHTML = `/${totalPontos}`
             })
-        setTimeout(() => {
-            for (var i = 1; i <= todosPontosQuestao.length; i++) {
-                totalPontos += todosPontosQuestao[i - 1]
-            }
-            pontuacaoTotal.innerHTML = `/${totalPontos}`
-        }, 300);
     }
 
     function buscarDadosQuiz() {
@@ -241,35 +253,33 @@
                     totalQuizzes.push(`Quiz ${resposta.idQuiz}`)
                     todasPontuacaoQuiz.push(`${resposta.pontos}`)
                 });
-            })
-        setTimeout(() => {
-            qtdQuizzes.innerHTML = `<p><span>${totalQuizzes.length}</span></p>
+                qtdQuizzes.innerHTML = `<p><span>${totalQuizzes.length}</span></p>
                     <p>Quizzes realizados</p>`
 
-            const graficBar = document.getElementById('myChart');
+                const graficBar = document.getElementById('myChart');
 
-            new Chart(graficBar, {
-                type: 'bar',
-                data: {
-                    labels: totalQuizzes,
-                    datasets: [{
-                        label: 'Pontos de Cada Quiz',
-                        data: todasPontuacaoQuiz,
-                        borderWidth: 1,
-                        borderColor: '#a52a2a',
-                        backgroundColor: '#ff8c42',
-                        borderRadius: 25,
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
+                new Chart(graficBar, {
+                    type: 'bar',
+                    data: {
+                        labels: totalQuizzes,
+                        datasets: [{
+                            label: 'Pontos de Cada Quiz',
+                            data: todasPontuacaoQuiz,
+                            borderWidth: 1,
+                            borderColor: '#a52a2a',
+                            backgroundColor: '#ff8c42',
+                            borderRadius: 25,
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
                         }
                     }
-                }
-            });
-        }, 150);
+                });
+            })
     }
 
     function trocarImagemDePerfil() {
