@@ -127,8 +127,4 @@ FROM
         JOIN
     debates ON comentario.pkDebate = debates.idDebate
 WHERE
-    debates.idDebate = 1;
-    
-SELECT * FROM usuario;
-SELECT * FROM debates WHERE pkUsuario = '1';
-SELECT COUNT(idComentario) FROM comentario WHERE pkUsuario = '1';
+    debates.idDebate = 1 ORDER BY comentario.idComentario ASC;
