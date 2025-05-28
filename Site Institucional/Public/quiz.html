@@ -54,7 +54,7 @@
     var questaoRespondida = []
     var questoesAcertadas = 0
 
-    function questoesRespondidas(){
+    function questoesRespondidas() {
         fetch(`/quizRoute/buscarQuestaoRespondida?pkUsuario=${idUsuario}`, {
             method: "GET"
         })
@@ -80,24 +80,24 @@
     }
 
     function proximo() {
-            if (envioDeResposta() == true) {
-                controles.innerHTML = ``
-                setTimeout(() => {
-                    if (ListaQuestoes.length < 10) {
+        if (envioDeResposta() == true) {
+            controles.innerHTML = ``
+            setTimeout(() => {
+                if (ListaQuestoes.length < 10) {
+                    questaoId = parseInt(Math.random() * (29 + 1) + 1)
+
+                    while (ListaQuestoes.includes(questaoId)) {
                         questaoId = parseInt(Math.random() * (29 + 1) + 1)
+                    }
+                    ListaQuestoes.push(questaoId)
+                    respostaSelecionada = ``
+                    buscarQuestao()
+                    controles.innerHTML = `<button onclick="proximo()" id="proximo">Proximo</button>`
+                    msgInicial.innerHTML = `<p> Responda com calma, ${qtdQuestao}/10 perguntas`
+                } else {
+                    pontosQuiz()
 
-                        while (ListaQuestoes.includes(questaoId)) {
-                            questaoId = parseInt(Math.random() * (29 + 1) + 1)
-                        }
-                        ListaQuestoes.push(questaoId)
-                        respostaSelecionada = ``
-                        buscarQuestao()
-                        controles.innerHTML = `<button onclick="proximo()" id="proximo">Proximo</button>`
-                        msgInicial.innerHTML = `<p> Responda com calma, ${qtdQuestao}/10 perguntas`
-                    } else {
-                        pontosQuiz()
-
-                        conteudo.innerHTML = `<div id="msgInicial">
+                    conteudo.innerHTML = `<div id="msgInicial">
                                 <p>O quiz chegou ao fim, você pode tentar novemente!!</p>
                             </div>
                         
@@ -115,10 +115,10 @@
                                 <button><a href="sociedade_das_almas.html">Voltar</a></button></button>
                             </div>`
 
-                        qtdQuestao = 1
-                    }
-                }, 1500);
-            }
+                    qtdQuestao = 1
+                }
+            }, 1500);
+        }
     }
 
     function buscarQuestao() {
@@ -166,80 +166,80 @@
     }
 
     function envioDeResposta() {
-            if (respostaSelecionada == ``) {
-                alert("Escolha uma alternativa!")
-                return false;
-            } else if (respostaSelecionada == alternativaCorreta) {
-                quizPontos += pontosQuestao
-                resultadoQuestao = 1
-                pontuacao = pontosQuestao
-                questoesAcertadas += 1
-                console.log(questoesAcertadas)
-                if (questaoRespondida.includes(questaoId)) {
-                    fetch(`/quizRoute/updateResposta`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            questaoServer: questaoId,
-                            respostaServer: resultadoQuestao,
-                            pontosServer: pontuacao,
-                            usuarioServer: idUsuario
-                        })
+        if (respostaSelecionada == ``) {
+            alert("Escolha uma alternativa!")
+            return false;
+        } else if (respostaSelecionada == alternativaCorreta) {
+            quizPontos += pontosQuestao
+            resultadoQuestao = 1
+            pontuacao = pontosQuestao
+            questoesAcertadas += 1
+            console.log(questoesAcertadas)
+            if (questaoRespondida.includes(questaoId)) {
+                fetch(`/quizRoute/updateResposta`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        questaoServer: questaoId,
+                        respostaServer: resultadoQuestao,
+                        pontosServer: pontuacao,
+                        usuarioServer: idUsuario
                     })
-                } else {
-                    console.log(questoesAcertadas)
-                    fetch(`/quizRoute/respostaQuestao`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            usuarioServer: idUsuario,
-                            questaoServer: questaoId,
-                            respostaServer: resultadoQuestao,
-                            pontosServer: pontuacao,
-                        })
-                    })
-                }
-                if (respostaSelecionada == 'alternativaA') {
-                    alternativa_a.innerHTML = `<button onclick="respostaSelecionada = 'alternativaA', btnSelecionado()" class="btnCorreto">${A}</button>`
-                } else if (respostaSelecionada == 'alternativaB') {
-                    alternativa_b.innerHTML = `<button onclick="respostaSelecionada = 'alternativaB', btnSelecionado()" class="btnCorreto">${B}</button>`
-                } else if (respostaSelecionada == 'alternativaC') {
-                    alternativa_c.innerHTML = `<button onclick="respostaSelecionada = 'alternativaC', btnSelecionado()" class="btnCorreto">${C}</button>`
-                } else if (respostaSelecionada == 'alternativaD') {
-                    alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD', btnSelecionado()" class="btnCorreto">${D}</button>`
-                }
-                qtdQuestao++
-                return true
+                })
             } else {
-                if (questaoRespondida.includes(questaoId)) {
-                    console.log(`Voce errou esta questao`)
-                } else {
-                    quizPontos += 0
-                    pontuacao = 0
-                    resultadoQuestao = 0
-                    fetch(`/quizRoute/respostaQuestao`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            usuarioServer: idUsuario,
-                            questaoServer: questaoId,
-                            respostaServer: resultadoQuestao,
-                            pontosServer: pontuacao
-                        })
+                console.log(questoesAcertadas)
+                fetch(`/quizRoute/respostaQuestao`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        usuarioServer: idUsuario,
+                        questaoServer: questaoId,
+                        respostaServer: resultadoQuestao,
+                        pontosServer: pontuacao
                     })
-                }
-                if (respostaSelecionada == 'alternativaA') {
-                    alternativa_a.innerHTML = `<button onclick="respostaSelecionada = 'alternativaA', btnSelecionado()" class="btnErrado">${A}</button>`
-                } else if (respostaSelecionada == 'alternativaB') {
-                    alternativa_b.innerHTML = `<button onclick="respostaSelecionada = 'alternativaB', btnSelecionado()" class="btnErrado">${B}</button>`
-                } else if (respostaSelecionada == 'alternativaC') {
-                    alternativa_c.innerHTML = `<button onclick="respostaSelecionada = 'alternativaC', btnSelecionado()" class="btnErrado">${C}</button>`
-                } else if (respostaSelecionada == 'alternativaD') {
-                    alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD', btnSelecionado()" class="btnErrado">${D}</button>`
-                }
-                qtdQuestao++
-                return true
+                })
             }
+            if (respostaSelecionada == 'alternativaA') {
+                alternativa_a.innerHTML = `<button onclick="respostaSelecionada = 'alternativaA', btnSelecionado()" class="btnCorreto">${A}</button>`
+            } else if (respostaSelecionada == 'alternativaB') {
+                alternativa_b.innerHTML = `<button onclick="respostaSelecionada = 'alternativaB', btnSelecionado()" class="btnCorreto">${B}</button>`
+            } else if (respostaSelecionada == 'alternativaC') {
+                alternativa_c.innerHTML = `<button onclick="respostaSelecionada = 'alternativaC', btnSelecionado()" class="btnCorreto">${C}</button>`
+            } else if (respostaSelecionada == 'alternativaD') {
+                alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD', btnSelecionado()" class="btnCorreto">${D}</button>`
+            }
+            qtdQuestao++
+            return true
+        } else {
+            if (questaoRespondida.includes(questaoId)) {
+                console.log(`Voce errou esta questao`)
+            } else {
+                quizPontos += 0
+                pontuacao = 0
+                resultadoQuestao = 0
+                fetch(`/quizRoute/respostaQuestao`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        usuarioServer: idUsuario,
+                        questaoServer: questaoId,
+                        respostaServer: resultadoQuestao,
+                        pontosServer: pontuacao
+                    })
+                })
+            }
+            if (respostaSelecionada == 'alternativaA') {
+                alternativa_a.innerHTML = `<button onclick="respostaSelecionada = 'alternativaA', btnSelecionado()" class="btnErrado">${A}</button>`
+            } else if (respostaSelecionada == 'alternativaB') {
+                alternativa_b.innerHTML = `<button onclick="respostaSelecionada = 'alternativaB', btnSelecionado()" class="btnErrado">${B}</button>`
+            } else if (respostaSelecionada == 'alternativaC') {
+                alternativa_c.innerHTML = `<button onclick="respostaSelecionada = 'alternativaC', btnSelecionado()" class="btnErrado">${C}</button>`
+            } else if (respostaSelecionada == 'alternativaD') {
+                alternativa_d.innerHTML = `<button onclick="respostaSelecionada = 'alternativaD', btnSelecionado()" class="btnErrado">${D}</button>`
+            }
+            qtdQuestao++
+            return true
+        }
     }
 
     function pontosQuiz() {
