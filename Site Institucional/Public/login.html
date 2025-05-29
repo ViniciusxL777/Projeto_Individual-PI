@@ -42,18 +42,13 @@
 
         // Validações
         if (email == `` || senha == ``) {
-            alert(`Preencha todos os campos`)
-            div_mensagem = `Preencha todos os campos`
-        }
-        else if (!email.includes('@') || !email.includes('.')) {
-            alert('O email deve conter @ e .')
-            div_mensagem = `O email deve conter @ e .`
+            div_mensagem.innerHTML = `Preencha todos os campos`
+        } else if (!email.includes('@') || !email.includes('.')) {
+            div_mensagem.innerHTML = `O email deve conter @ e .`
         } else if (email.indexOf('@') === 0 || email.lastIndexOf('.') === email.length - 1) {
-            alert('Email inválido: @ não pode ser o primeiro caractere e . não pode ser o último')
-            div_mensagem = `Email inválido: @ não pode ser o primeiro caractere e . não pode ser o último`
+            div_mensagem.innerHTML = `Email inválido: @ não pode ser o primeiro caractere e . não pode ser o último`
         } else if (senha.length < 8) {
-            alert('A senha deve conter pelo menos 8 caracteres')
-            div_mensagem = `A senha deve conter pelo menos 8 caracteres`
+            div_mensagem.innerHTML = `A senha deve conter pelo menos 8 caracteres`
         } else {
 
             fetch("/usuarioRoute/autenticar", {
@@ -67,10 +62,8 @@
                 })
             }).then(function (resposta) {
                 console.log("ESTOU NO THEN DO entrar()!")
-
                 if (resposta.ok) {
                     console.log(resposta);
-
                     resposta.json().then(json => {
                         console.log(json);
                         console.log(JSON.stringify(json));
@@ -79,25 +72,21 @@
                         sessionStorage.ID_USUARIO = json.idUsuario;
                         sessionStorage.IMAGEM_PERFIL = json.imagemPerfil;
 
-                        alert(`Login bem sucedido`)
-                        window.location = "sociedade_das_almas.html"
+                        div_mensagem.innerHTML = `Login bem sucedido`
+                        setTimeout(() => {
+                            window.location = "sociedade_das_almas.html"
+                        }, 1000);
                     });
-
                 } else {
-
-                    console.log("Houve um erro ao tentar realizar o login!")
-
+                    div_mensagem.innerHTML = "Email e/ou senha inválidos!"
                     resposta.text().then(texto => {
                         console.error(texto);
                     });
                 }
-
             }).catch(function (erro) {
                 console.log(erro);
             })
-
             return false;
         }
-
     }
 </script>
