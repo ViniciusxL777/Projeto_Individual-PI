@@ -306,11 +306,9 @@
         })
             .then(res => {
                 if (res.ok) {
-                    alert(`Comentário enviado com sucesso!`);
                     trazerConteudoDebate(idDiv, debateAtualIndice, debateConteudo);
                 } else {
                     console.error('Erro na resposta do servidor:', res.status);
-                    alert('Ocorreu um erro ao enviar o comentário. Status: ' + res.status);
                 }
             })
             .catch(err => {
