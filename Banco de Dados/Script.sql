@@ -47,6 +47,8 @@ CREATE TABLE debates (
     idDebate INT AUTO_INCREMENT NOT NULL,
     pkUsuario INT,
     PRIMARY KEY (idDebate , pkUsuario),
+    CONSTRAINT usuarioDebate FOREIGN KEY (pkUsuario)
+        REFERENCES usuario (idUsuario),
     titulo VARCHAR(100) NOT NULL
 );
 
