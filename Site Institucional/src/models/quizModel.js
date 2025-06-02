@@ -1,4 +1,3 @@
-const { request } = require("express");
 var database = require("../database/config")
 
 function buscarQuestao(idQuestao) {

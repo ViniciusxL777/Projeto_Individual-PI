@@ -286,17 +286,17 @@
     }
 
     function enviarComentario(idDiv, debateConteudo) {
-        const inputComentario = document.getElementById(`input_comentarioTexto_${idDiv}`)
-        const inputFoto = document.getElementById(`foto_${idDiv}`)
+        var input_comentario = document.getElementById(`input_comentarioTexto_${idDiv}`)
+        var input_foto = document.getElementById(`foto_${idDiv}`)
 
-        if (inputComentario.value == "" && inputFoto.files.length == 0) {
+        if (input_comentario.value == "" && input_foto.files.length == 0) {
             alert(`Não é permitido comentário vazio`);
             return;
         }
 
         const formData = new FormData();
-        formData.append('foto', inputFoto.files[0]);
-        formData.append('comentario', inputComentario.value);
+        formData.append('foto', input_foto.files[0]);
+        formData.append('comentario', input_comentario.value);
         formData.append('pkUsuario', idUsuario);
         formData.append('pkDebate', debateConteudo);
 
