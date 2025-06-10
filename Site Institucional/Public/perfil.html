@@ -10,7 +10,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body onload="buscarDadosResultados(), buscarDadosQuestoes(), buscarDadosQuiz(), trazerDebatesCriados(), trazerComentario()">
+<body
+    onload="buscarDadosResultados(), buscarDadosQuestoes(), buscarDadosQuiz(), trazerDebatesCriados(), trazerComentario()">
 
     <!-- NAVBAR -->
     <nav class="navbar">
@@ -188,7 +189,7 @@
     }
 
     function limparSessao() {
-        sessionStorage.clear();
+        sessionStorage.clear()
         window.location = "../login.html"
     }
 
@@ -256,19 +257,27 @@
                 dadosQuizzes.forEach(resposta => {
                     totalQuizzes.push(`Quiz ${resposta.idQuiz}`)
                     todasPontuacaoQuiz.push(`${resposta.pontos}`)
-                });
+                })
                 qtdQuizzes.innerHTML = `<p><span>${totalQuizzes.length}</span></p>
                     <p>Quizzes realizados</p>`
+
+                var quizDash = []
+                var pontosDash = []
+
+                for (var i = totalQuizzes.length; i > 0; i--) {
+                    quizDash.push(totalQuizzes[i - 1])
+                    pontosDash.push(todasPontuacaoQuiz[i - 1])
+                }
 
                 const graficBar = document.getElementById('myChart');
 
                 new Chart(graficBar, {
                     type: 'bar',
                     data: {
-                        labels: totalQuizzes,
+                        labels: quizDash,
                         datasets: [{
                             label: 'Pontos de Cada Quiz',
-                            data: todasPontuacaoQuiz,
+                            data: pontosDash,
                             borderWidth: 1,
                             borderColor: '#a52a2a',
                             backgroundColor: '#ff8c42',
@@ -282,7 +291,7 @@
                             }
                         }
                     }
-                });
+                })
             })
     }
 
@@ -348,10 +357,10 @@
                 todosDebatesCriados = []
                 dadosDebates.forEach(resultado => {
                     todosDebatesCriados.push(resultado.idDebate)
-                });
+                })
                 debates = todosDebatesCriados.length
                 exibirDebates.innerHTML = debates
-            });
+            })
     }
 
     function trazerComentario() {
@@ -363,10 +372,10 @@
                 todosComentario = []
                 dadosComentario.forEach(resultado => {
                     todosComentario.push(resultado.idComentario)
-                });
+                })
                 comentario = todosComentario.length
                 exibirComentario.innerHTML = comentario
-            });
+            })
     }
 
 </script>

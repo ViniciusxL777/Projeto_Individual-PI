@@ -89,6 +89,7 @@
                     while (ListaQuestoes.includes(questaoId)) {
                         questaoId = parseInt(Math.random() * (29 + 1) + 1)
                     }
+
                     ListaQuestoes.push(questaoId)
                     respostaSelecionada = ``
                     buscarQuestao()
@@ -168,7 +169,7 @@
     function envioDeResposta() {
         if (respostaSelecionada == ``) {
             alert("Escolha uma alternativa!")
-            return false;
+            return false
         } else if (respostaSelecionada == alternativaCorreta) {
             quizPontos += pontosQuestao
             resultadoQuestao = 1

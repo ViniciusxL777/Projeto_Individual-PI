@@ -16,7 +16,7 @@
 
     function buscarDadosQuiz(pkUsuario) {
         var instrucaoSql = `
-            SELECT * FROM quiz WHERE pkUsuario = '${pkUsuario}';`;
+            SELECT * FROM quiz WHERE pkUsuario = '${pkUsuario}' ORDER BY idQuiz DESC LIMIT 10;`;
         console.log("Executando a instrução SQL: Consulta de quizzes do usuário \n" + instrucaoSql);
         return database.executar(instrucaoSql);
     }

@@ -229,7 +229,7 @@
             })
             .catch(error => {
                 console.log("Erro ao carregar debates: " + error)
-            });
+            })
     }
 
     function trazerConteudoDebate(idDiv, indiceDebate, debateConteudo) {
@@ -248,7 +248,9 @@
             </div>
         </div>`
 
-        fetch(`/chatRoute/buscarDadosDebate?idDebate=${debateConteudo}`, { method: "GET" })
+        fetch(`/chatRoute/buscarDadosDebate?idDebate=${debateConteudo}`, {
+            method: "GET"
+        })
             .then(response => response.json())
             .then(dadosDebate => {
                 if (dadosDebate.length > 0) {
@@ -278,11 +280,12 @@
                     <input type="file" id="foto_${idDiv}" class="inputComentarImagem" hidden>
                 </div>
                 <button onclick="enviarComentario('${idDiv}', ${debateConteudo})">Enviar Comentário</button>
-            </div>`;
+            </div>`
             })
             .catch(err => {
                 console.log(err)
-            });
+            })
+            
     }
 
     function enviarComentario(idDiv, debateConteudo) {
@@ -290,15 +293,15 @@
         var input_foto = document.getElementById(`foto_${idDiv}`)
 
         if (input_comentario.value == "" && input_foto.files.length == 0) {
-            alert(`Não é permitido comentário vazio`);
-            return;
+            alert(`Não é permitido comentário vazio`)
+            return
         }
 
-        const formData = new FormData();
-        formData.append('foto', input_foto.files[0]);
-        formData.append('comentario', input_comentario.value);
-        formData.append('pkUsuario', idUsuario);
-        formData.append('pkDebate', debateConteudo);
+        const formData = new FormData()
+        formData.append('foto', input_foto.files[0])
+        formData.append('comentario', input_comentario.value)
+        formData.append('pkUsuario', idUsuario)
+        formData.append('pkDebate', debateConteudo)
 
         fetch("/chatRoute/enviarComentarioTextoImagem", {
             method: "POST",
@@ -312,9 +315,9 @@
                 }
             })
             .catch(err => {
-                console.error('Erro na requisição:', err);
-                alert('Erro ao enviar comentário: ' + err.message);
-            });
+                console.error('Erro na requisição:', err)
+                alert('Erro ao enviar comentário: ' + err.message)
+            })
     }
 
     function fecharDebate(idDiv, indiceDebate) {
