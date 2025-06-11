@@ -218,13 +218,13 @@
                 geral.innerHTML = ''
                 for (var o = 1; o <= idDebate.length; o++) {
                     geral.innerHTML += `
-                <div id="debate_${idDebate[o - 1]}">
-                    <div class="debate">
-                        <button onclick="trazerConteudoDebate('debate_${idDebate[o - 1]}', ${o - 1}, ${idDebate[o - 1]})">
-                            <p>${titulo[o - 1]}</p>
-                        </button>
-                    </div>
-                </div>`
+                        <div id="debate_${idDebate[o - 1]}">
+                            <div class="debate">
+                                <button onclick="trazerConteudoDebate('debate_${idDebate[o - 1]}', ${o - 1}, ${idDebate[o - 1]})">
+                                    <p>${titulo[o - 1]}</p>
+                                </button>
+                            </div>
+                        </div>`
                 }
             })
             .catch(error => {
@@ -238,15 +238,15 @@
         debateAtualId = debateConteudo
 
         document.getElementById(idDiv).innerHTML = `
-        <div class="sub_titulo">
-            <div class="texto-imagem">
-                <div class="texto">
-                    <h2 onclick="fecharDebate('${idDiv}', ${indiceDebate})">${titulo[indiceDebate]}</h2>
-                    <div class="sub_conteudo" id="comentario_${idDiv}">
+            <div class="sub_titulo">
+                <div class="texto-imagem">
+                    <div class="texto">
+                        <h2 onclick="fecharDebate('${idDiv}', ${indiceDebate})">${titulo[indiceDebate]}</h2>
+                        <div class="sub_conteudo" id="comentario_${idDiv}">
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>`
+            </div>`
 
         fetch(`/chatRoute/buscarDadosDebate?idDebate=${debateConteudo}`, {
             method: "GET"
@@ -256,36 +256,36 @@
                 if (dadosDebate.length > 0) {
                     dadosDebate.forEach(resposta => {
                         document.getElementById(`comentario_${idDiv}`).innerHTML += `
-                    <div class="comentario">
-                        <div class="usuarioComentario">
-                            <p>${resposta.nome}</p>
-                            <img src="assets/fotosUsuario/${resposta.imagemPerfil}" alt="">
-                        </div>
-                        <div class="comentarioTexto">
-                            <p>${resposta.comentario}</p>
-                        </div>
-                        <div class="imagens">
-                            <img src="assets/imagemComentario/${resposta.imagem}" alt="">
-                        </div>
-                    </div>`
+                            <div class="comentario">
+                                <div class="usuarioComentario">
+                                    <p>${resposta.nome}</p>
+                                    <img src="assets/fotosUsuario/${resposta.imagemPerfil}" alt="">
+                                </div>
+                                <div class="comentarioTexto">
+                                    <p>${resposta.comentario}</p>
+                                </div>
+                                <div class="imagens">
+                                    <img src="assets/imagemComentario/${resposta.imagem}" alt="">
+                                </div>
+                            </div>`
                     })
                 }
 
                 document.getElementById(`comentario_${idDiv}`).innerHTML += `
-            <div class="comentar">
-                <p>Comentar:</p>
-                <div class="comentarCampos">
-                    <textarea class="inputComentarTexto" id="input_comentarioTexto_${idDiv}" placeholder="Escreva seu comentário..."></textarea>
-                    <label for="foto_${idDiv}" class="comentarImagem">Escolher imagem</label>
-                    <input type="file" id="foto_${idDiv}" class="inputComentarImagem" hidden>
-                </div>
-                <button onclick="enviarComentario('${idDiv}', ${debateConteudo})">Enviar Comentário</button>
-            </div>`
+                    <div class="comentar">
+                        <p>Comentar:</p>
+                        <div class="comentarCampos">
+                            <textarea class="inputComentarTexto" id="input_comentarioTexto_${idDiv}" placeholder="Escreva seu comentário..."></textarea>
+                            <label for="foto_${idDiv}" class="comentarImagem">Escolher imagem</label>
+                            <input type="file" id="foto_${idDiv}" class="inputComentarImagem" hidden>
+                        </div>
+                        <button onclick="enviarComentario('${idDiv}', ${debateConteudo})">Enviar Comentário</button>
+                    </div>`
             })
             .catch(err => {
                 console.log(err)
             })
-            
+
     }
 
     function enviarComentario(idDiv, debateConteudo) {
